@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="life-server_8c">
+    <title>life-server.c File Reference</title>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+    <programlisting>#include &lt;stdlib.h&gt;</programlisting>
+    <programlisting>#include &lt;math.h&gt;</programlisting>
+    <programlisting>#include &lt;unistd.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/types.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/ipc.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/shm.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/sem.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/msg.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/wait.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/stat.h&gt;</programlisting>
+    <programlisting>#include &lt;fcntl.h&gt;</programlisting>
+    <programlisting>#include &quot;lifefld.h&quot;</programlisting>
+    <programlisting>#include &quot;lifeop.h&quot;</programlisting>
+        <section>
+            <title>Функции</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="life-server_8c_1a0ddf1224851353fc92bfbff6f499fa97">main</link> (
+int argc, char * argv)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Подробное описание</title>
+    <para>Definition in file /home/anton/Dropbox/Программирование/Жизнь/life-server.c</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 
+6 <emphasis class="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+7 <emphasis class="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+8 <emphasis class="preprocessor">#include&#32;&lt;math.h&gt;</emphasis>
+9 <emphasis class="preprocessor">#include&#32;&lt;unistd.h&gt;</emphasis>
+10 <emphasis class="preprocessor">#include&#32;&lt;sys/types.h&gt;</emphasis>
+11 <emphasis class="preprocessor">#include&#32;&lt;sys/ipc.h&gt;</emphasis>
+12 <emphasis class="preprocessor">#include&#32;&lt;sys/shm.h&gt;</emphasis>
+13 <emphasis class="preprocessor">#include&#32;&lt;sys/sem.h&gt;</emphasis>
+14 <emphasis class="preprocessor">#include&#32;&lt;sys/msg.h&gt;</emphasis>
+15 <emphasis class="preprocessor">#include&#32;&lt;sys/wait.h&gt;</emphasis>
+16 <emphasis class="preprocessor">#include&#32;&lt;sys/stat.h&gt;</emphasis>
+17 <emphasis class="preprocessor">#include&#32;&lt;fcntl.h&gt;</emphasis>
+18 <emphasis class="preprocessor">#include&#32;&quot;<link linkend="lifefld_8h">lifefld.h</link>&quot;</emphasis>
+19 <emphasis class="preprocessor">#include&#32;&quot;<link linkend="lifeop_8h">lifeop.h</link>&quot;</emphasis>
+20 
+21 <emphasis class="keywordtype">int</emphasis>
+22 main(<emphasis class="keywordtype">int</emphasis>&#32;argc,&#32;<emphasis class="keywordtype">char</emphasis>&#32;*argv[])
+23 {
+24 &#32;&#32;&#32;&#32;<emphasis class="comment">//mkfifo(&quot;stoc&quot;,&#32;RIGHTS);</emphasis>
+25 &#32;&#32;&#32;&#32;mkfifo(<emphasis class="stringliteral">&quot;ctos&quot;</emphasis>,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>);
+26 &#32;&#32;&#32;<emphasis class="comment">/*&#32;int&#32;fd1&#32;=&#32;open(&quot;stoc&quot;,&#32;O_WRONLY,&#32;0);</emphasis>
+27 <emphasis class="comment">&#32;&#32;&#32;&#32;dup2(fd1,&#32;1);</emphasis>
+28 <emphasis class="comment">&#32;&#32;&#32;&#32;close(fd1);*/</emphasis>
+29 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;fd1&#32;=&#32;open(<emphasis class="stringliteral">&quot;ctos&quot;</emphasis>,&#32;O_RDONLY,&#32;0);
+30 &#32;&#32;&#32;&#32;dup2(fd1,&#32;0);
+31 &#32;&#32;&#32;&#32;close(fd1);
+32 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;m&#32;=&#32;atoi(argv[1]);
+33 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;n&#32;=&#32;atoi(argv[2]);
+34 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;k&#32;=&#32;atoi(argv[3]);
+35 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(m&#32;&lt;&#32;1){
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;ОШИБКА:&#32;Слишком&#32;маленькая&#32;ширина&#32;поля,&#32;минимальная&#32;допустимая&#32;ширина&#32;поля&#32;-&#32;1.\n&quot;</emphasis>);
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;m&#32;=&#32;1;
+39 &#32;&#32;&#32;&#32;}
+40 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(n&#32;&lt;&#32;1){
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;ОШИБКА:&#32;Слишком&#32;маленькая&#32;длина&#32;поля,&#32;минимальная&#32;допустимая&#32;длина&#32;поля&#32;-&#32;1.\n&quot;</emphasis>);
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;n&#32;=&#32;1;
+44 &#32;&#32;&#32;&#32;}
+45 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;Установлены&#32;размеры&#32;поля:&#32;%dx%d\n&quot;</emphasis>,&#32;m,&#32;n);
+46 &#32;&#32;&#32;&#32;fflush(stdout);
+47 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(k&#32;&gt;&#32;m&#32;*&#32;n){
+48 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;k&#32;=&#32;m&#32;*&#32;n;
+49 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;ОШИБКА:&#32;Слишком&#32;много&#32;процессов,&#32;максимальное&#32;допустимое&#32;количество&#32;процессов&#32;-&#32;%d.\n&quot;</emphasis>,&#32;k);
+50 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+51 &#32;&#32;&#32;&#32;}
+52 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;Будет&#32;создано&#32;%d&#32;процессов\n&quot;</emphasis>,&#32;k);
+53 &#32;&#32;&#32;&#32;fflush(stdout);
+54 &#32;&#32;&#32;&#32;<emphasis class="keyword">struct&#32;</emphasis><link linkend="structfld__param">fld_param</link>&#32;fldp;
+55 &#32;&#32;&#32;&#32;fldp.<link linkend="structfld__param_1a742204794ea328ba293fe59cec79b990">m</link>&#32;=&#32;<link linkend="structfld__param_1a742204794ea328ba293fe59cec79b990">m</link>;
+56 &#32;&#32;&#32;&#32;fldp.n&#32;=&#32;<link linkend="structfld__param_1a76f11d9a0a47b94f72c2d0e77fb32240">n</link>;
+57 &#32;&#32;&#32;&#32;fldp.k&#32;=&#32;<link linkend="structfld__param_1ab66ed8e0098c0a86b458672a55a9cca9">k</link>;
+58 &#32;&#32;&#32;&#32;fldp.sqrside&#32;=&#32;<link linkend="lifefld_8h_1a32300bb46d9c00fa91aeabb9966f8b35">coverfld</link>(m,&#32;n,&#32;k,&#32;&amp;fldp.proc_vert,&#32;&amp;fldp.proc_gor);
+59 &#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;%d&#32;%d\n&quot;</emphasis>,&#32;fldp.proc_vert,&#32;fldp.proc_gor);
+60 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*shmid[2];
+61 &#32;&#32;&#32;&#32;shmid[0]&#32;=&#32;malloc(2&#32;*&#32;(fldp.proc_gor&#32;-&#32;1)&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+62 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;2&#32;*&#32;(fldp.proc_gor&#32;-&#32;1);&#32;i++){
+63 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmid[0][i]&#32;=&#32;shmget(IPC_PRIVATE,&#32;(m&#32;+&#32;2)&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>),&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>&#32;|&#32;IPC_CREAT);
+64 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*tmp_at&#32;=&#32;shmat(shmid[0][i],&#32;NULL,&#32;0);
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;ert&#32;=&#32;0;
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;j&#32;=&#32;0;&#32;j&#32;&lt;&#32;m&#32;+&#32;2;&#32;j++){
+67 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(!(j&#32;%&#32;fldp.sqrside))
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ert&#32;+=&#32;10;
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp_at[j]&#32;=&#32;0;
+70 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+71 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(tmp_at);
+72 &#32;&#32;&#32;&#32;}
+73 &#32;&#32;&#32;&#32;shmid[1]&#32;=&#32;malloc(2&#32;*&#32;(fldp.proc_vert&#32;-&#32;1)&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+74 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;2&#32;*&#32;(fldp.proc_vert&#32;-&#32;1);&#32;i++){
+75 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmid[1][i]&#32;=&#32;shmget(IPC_PRIVATE,&#32;(n&#32;+&#32;2)&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>),&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>&#32;|&#32;IPC_CREAT);
+76 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*tmp_at&#32;=&#32;shmat(shmid[1][i],&#32;NULL,&#32;0);
+77 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;ert&#32;=&#32;0;
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;j&#32;=&#32;0;&#32;j&#32;&lt;&#32;n&#32;+&#32;2;&#32;j++){
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(!(j&#32;%&#32;fldp.sqrside))
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ert&#32;+=&#32;1000;
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmp_at[j]&#32;=&#32;0;
+82 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+83 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(tmp_at);
+84 &#32;&#32;&#32;&#32;}
+85 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*msgid&#32;=&#32;malloc(fldp.proc_vert&#32;*&#32;fldp.proc_gor&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+86 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;<link linkend="structfld__param_1ab66ed8e0098c0a86b458672a55a9cca9">k</link>;&#32;i++){
+87 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msgid[i]&#32;=&#32;msgget(IPC_PRIVATE,&#32;IPC_CREAT&#32;|&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>);
+88 &#32;&#32;&#32;&#32;}
+89 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;semid&#32;=&#32;semget(IPC_PRIVATE,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8">NSEM</link>,&#32;IPC_CREAT&#32;|&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>);
+90 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;num&#32;=&#32;0;
+91 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;fldp.proc_vert;&#32;i++){
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;j&#32;=&#32;0;&#32;j&#32;&lt;&#32;fldp.proc_gor;&#32;j++){
+93 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">struct&#32;</emphasis><link linkend="structproc__param">proc_param</link>&#32;proc;
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;=&#32;i;
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.num_gor&#32;=&#32;j;
+96 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.vert_side&#32;=&#32;fldp.sqrside&#32;+&#32;2;
+97 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.gor_side&#32;=&#32;fldp.sqrside&#32;+&#32;2;
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(i&#32;==&#32;fldp.proc_vert&#32;-&#32;1){
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.vert_side&#32;=&#32;m&#32;-&#32;fldp.sqrside&#32;*&#32;i&#32;+&#32;2;
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+101 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(j&#32;==&#32;fldp.proc_gor&#32;-&#32;1){
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.gor_side&#32;=&#32;n&#32;-&#32;fldp.sqrside&#32;*&#32;j&#32;+&#32;2;
+103 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;br&#32;=&#32;0;
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(m&#32;&gt;=&#32;n&#32;&amp;&amp;&#32;i&#32;==&#32;fldp.proc_vert&#32;-&#32;1){
+106 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(j&#32;!=&#32;fldp.proc_gor&#32;-&#32;1&#32;&amp;&amp;&#32;i&#32;*&#32;fldp.proc_gor&#32;+&#32;j&#32;+&#32;1&#32;==&#32;k){
+107 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.gor_side&#32;=&#32;n&#32;-&#32;j&#32;*&#32;fldp.sqrside&#32;+&#32;2;
+108 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;br&#32;=&#32;1;
+109 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+110 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+111 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(n&#32;&gt;&#32;m&#32;&amp;&amp;&#32;j&#32;==&#32;fldp.proc_gor&#32;-&#32;1){
+112 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(k&#32;%&#32;fldp.proc_vert&#32;-&#32;1&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;i&#32;==&#32;k&#32;%&#32;fldp.proc_vert&#32;-&#32;1){
+113 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc.vert_side&#32;=&#32;m&#32;-&#32;i&#32;*&#32;fldp.sqrside&#32;+&#32;2;
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+115 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(k&#32;%&#32;fldp.proc_vert&#32;-&#32;1&#32;&gt;=&#32;0&#32;&amp;&amp;&#32;i&#32;&gt;&#32;k&#32;%&#32;fldp.proc_vert&#32;-&#32;1){
+116 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">continue</emphasis>;
+117 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+118 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+119 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(!fork()){
+120 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;**fld&#32;=&#32;<link linkend="lifefld_8h_1af4b0e2749728ae38395e689d7158c4d1">fldcreate</link>(&amp;fldp,&#32;&amp;proc);
+121 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">struct&#32;</emphasis><link linkend="structborder">border</link>&#32;borders;
+122 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="lifefld_8h_1a2ace44c9453b8a3039dc1ca159290af9">get_borders</link>(&amp;borders,&#32;&amp;fldp,&#32;&amp;proc,&#32;shmid);
+123 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;work&#32;=&#32;1;
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">while</emphasis>(work){
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keyword">struct&#32;</emphasis><link linkend="structmsgb">msgb</link>&#32;msg;
+126 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msgrcv(msgid[num],&#32;&amp;msg,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83">DATA_SIZE</link>&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>),&#32;0,&#32;0);
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;x,&#32;y,&#32;ok&#32;=&#32;0;
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(num&#32;==&#32;0){
+129 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ok&#32;=&#32;1;
+130 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">switch</emphasis>(msg.msgtype){
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff">LF_ADD</link>:
+133 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x&#32;=&#32;msg.data[0];
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y&#32;=&#32;msg.data[1];
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(<link linkend="lifefld_8h_1a33d22361defb8f49f54304fe19240abe">checkhit</link>(&amp;x,&#32;&amp;y,&#32;&amp;fldp,&#32;&amp;proc)){
+136 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ok&#32;=&#32;1;
+137 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fld[x][y]&#32;=&#32;1;
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(y&#32;==&#32;1){
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders.left_border[x]&#32;=&#32;1;
+140 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(y&#32;==&#32;proc.gor_side&#32;-&#32;2){
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders.right_border[x]&#32;=&#32;1;
+143 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+144 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(x&#32;==&#32;1){
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders.up_border[y]&#32;=&#32;1;
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+147 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(x&#32;==&#32;proc.vert_side&#32;-&#32;2){
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders.down_border[y]&#32;=&#32;1;
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+150 
+151 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+152 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ok&#32;=&#32;0;
+153 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+154 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+155 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9">LF_CLR</link>:
+156 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1a3f37c599f55a2b67ff121e6c37df7630">clearfld</link>(fld,&#32;&amp;borders,&#32;&amp;proc);
+157 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+158 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e">LF_START</link>:
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x&#32;=&#32;msg.data[0];
+160 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;mode&#32;=&#32;msg.data[1];
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ok&#32;=&#32;0;
+162 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(num&#32;==&#32;0){
+163 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;Выполнено.\n&quot;</emphasis>);
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(<link linkend="lifeop_8h_1a67be292e3bb47697a2ce1391363c5298">start</link>(x,&#32;mode,&#32;fld,&#32;&amp;borders,&#32;&amp;fldp,&#32;&amp;proc,&#32;semid,&#32;num,&#32;msgid)&#32;==&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9">LF_QUIT</link>){
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;work&#32;=&#32;0;
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38">LF_STOP</link>:
+171 
+172 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(num&#32;==&#32;0){
+173 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;ОШИБКА:&#32;игра&#32;не&#32;была&#32;запущена.\n&quot;</emphasis>);
+174 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+175 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+176 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;ok&#32;=&#32;0;
+177 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+178 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b">LF_SNAP</link>:
+179 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1a5a4fae3e7116c3fc2eed053fbd3e7d70">snap</link>(fld,&#32;msg.data[0],&#32;&amp;fldp,&#32;&amp;proc,&#32;semid,&#32;num);
+180 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+181 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">case</emphasis>&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9">LF_QUIT</link>:
+182 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;work&#32;=&#32;0;
+183 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+184 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">default</emphasis>:
+185 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+186 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+187 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(ok){
+188 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;printf(<emphasis class="stringliteral">&quot;Выполнено.\n&quot;</emphasis>);
+189 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+190 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+191 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+192 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="lifefld_8h_1a021e16a77a7d22b764f04ca286de10bd">rmfld</link>(fld,&#32;&amp;fldp,&#32;&amp;proc);
+193 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<link linkend="lifefld_8h_1a7a0276abe2b2c8b8b4820e3664340739">rmborder</link>(&amp;borders,&#32;&amp;fldp,&#32;&amp;proc);
+194 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(0);
+195 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+196 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;num++;
+197 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(br){
+198 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+199 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+200 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+201 &#32;&#32;&#32;&#32;}
+202 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;work&#32;=&#32;1;
+203 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">while</emphasis>(work){
+204 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">char</emphasis>&#32;cmd[<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>];
+205 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fgets(cmd,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>,&#32;stdin);
+206 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(<link linkend="lifeop_8h_1aae0b7e9569a84f89761ab2f642a8a459">processcmd</link>(cmd,&#32;&amp;fldp,&#32;msgid,&#32;semid)&#32;==&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9">LF_QUIT</link>){
+207 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">break</emphasis>;
+208 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+209 &#32;&#32;&#32;&#32;}
+210 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">while</emphasis>(wait(NULL)&#32;&gt;&#32;0);
+211 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;2&#32;*&#32;(fldp.proc_vert);&#32;i++){
+212 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmctl(shmid[0][i],&#32;IPC_RMID,&#32;NULL);
+213 &#32;&#32;&#32;&#32;}
+214 &#32;&#32;&#32;&#32;free(shmid[0]);
+215 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;2&#32;*&#32;(fldp.proc_gor&#32;-&#32;1);&#32;i++){
+216 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmctl(shmid[1][i],&#32;IPC_RMID,&#32;NULL);
+217 &#32;&#32;&#32;&#32;}
+218 &#32;&#32;&#32;&#32;free(shmid[1]);
+219 &#32;&#32;&#32;&#32;semctl(semid,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8">NSEM</link>,&#32;IPC_RMID,&#32;NULL);
+220 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;k;&#32;i++){
+221 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;msgctl(msgid[i],&#32;IPC_RMID,&#32;NULL);
+222 &#32;&#32;&#32;&#32;}
+223 &#32;&#32;&#32;&#32;free(msgid);
+224 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;0;
+225 }
+    </computeroutput></literallayout>
+</section>

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structmsgb">
+<title>msgb struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="lifeop_8h">&lt;lifeop.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Поля данных</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>long msgtype<para><emphasis>Тип сообщения</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int data[DATA_SIZE]<para><emphasis>Тело сообщения</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Буфер сообщения </para>
+    </simplesect>
+        <section>
+            <title>Поля</title>
+        </section>
+</section>

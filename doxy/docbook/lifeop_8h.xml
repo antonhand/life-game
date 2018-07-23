@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="lifeop_8h">
+    <title>lifeop.h File Reference</title>
+    <programlisting>#include &quot;lifefld.h&quot;</programlisting>
+        <section>
+            <title> Структуры данных </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structmsgb">msgb</link></para>
+<para><emphasis>Буфер сообщения</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Перечисления</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7">@1</link> {
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>= 0666,
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8">NSEM</link>= 6,
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>= 32,
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83">DATA_SIZE</link>= 2
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5">@2</link> {
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7">LF_ER_CMD</link>= -1,
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805">LF_ER_OUTOFFLD</link>= -2,
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f">LF_ER_WRNUMARG</link>= -3,
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6">LF_ER_BADARG</link>= -4
+}</literallayout>
+<para><emphasis>Набор возможных ошибок</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04">@3</link> {
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff">LF_ADD</link>= 1,
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9">LF_CLR</link>= 2,
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e">LF_START</link>= 3,
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38">LF_STOP</link>= 4,
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b">LF_SNAP</link>= 5,
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9">LF_QUIT</link>= 6
+}</literallayout>
+<para><emphasis>Типы команд</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06c">@4</link> {
+<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14">LF_MINNEED</link>= 2,
+<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f">LF_MAXNEED</link>= 3,
+<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4">LF_BORN</link>= 3
+}</literallayout>
+<para><emphasis>Параметры игры</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Функции</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="lifeop_8h_1aae0b7e9569a84f89761ab2f642a8a459">processcmd</link> (
+char * cmd, struct <link linkend="structfld__param">fld_param</link> * fldp, int * msgid, int semid)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifeop_8h_1a3f37c599f55a2b67ff121e6c37df7630">clearfld</link> (
+int ** fld, struct <link linkend="structborder">border</link> * borders, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="lifeop_8h_1a67be292e3bb47697a2ce1391363c5298">start</link> (
+int P, int mode, int ** fld, struct <link linkend="structborder">border</link> * borders, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc, int semid, int num, int * msgid)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifeop_8h_1a5a4fae3e7116c3fc2eed053fbd3e7d70">snap</link> (
+int ** fld, int mode, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc, int semid, int num)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Подробное описание</title>
+
+<para>Заголовочный файл функций обработки команд </para>
+
+<para>Данный файл содержит в себе определения функций, необходимых для обработки различных команд, поступающих от клиента, и для процесса моделирования игры </para>
+    <para>Definition in file /home/anton/Dropbox/Программирование/Жизнь/lifeop.h</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 
+8 <emphasis class="preprocessor">#ifndef&#32;LIFEOP_H_INCLUDED</emphasis>
+9 <emphasis class="preprocessor">#define&#32;LIFEOP_H_INCLUDED</emphasis>
+10 <emphasis class="preprocessor">#include&#32;&quot;<link linkend="lifefld_8h">lifefld.h</link>&quot;</emphasis>
+11 
+12 <emphasis class="keyword">enum</emphasis>
+13 {
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">14 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>&#32;=&#32;0666,
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8">15 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8">NSEM</link>&#32;=&#32;6,&#32;&#32;&#32;&#32;&#32;
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">16 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>&#32;=&#32;32,&#32;
+<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83">17 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83">DATA_SIZE</link>&#32;=&#32;2&#32;
+18 };
+19 
+21 <emphasis class="keyword">enum</emphasis>
+22 {
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7">23 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7">LF_ER_CMD</link>&#32;=&#32;-1,&#32;&#32;&#32;&#32;&#32;
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805">24 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805">LF_ER_OUTOFFLD</link>&#32;=&#32;-2,
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f">25 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f">LF_ER_WRNUMARG</link>&#32;=&#32;-3,
+<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6">26 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6">LF_ER_BADARG</link>&#32;=&#32;-4&#32;&#32;&#32;
+27 
+28 };
+29 
+30 
+31 
+33 <emphasis class="keyword">enum</emphasis>
+34 {
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff">35 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff">LF_ADD</link>&#32;=&#32;1,&#32;&#32;&#32;
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9">36 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9">LF_CLR</link>&#32;=&#32;2,&#32;&#32;&#32;
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e">37 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e">LF_START</link>&#32;=&#32;3,&#32;
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38">38 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38">LF_STOP</link>&#32;=&#32;4,&#32;&#32;
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b">39 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b">LF_SNAP</link>&#32;=&#32;5,&#32;&#32;
+<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9">40 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9">LF_QUIT</link>&#32;=&#32;6&#32;&#32;&#32;
+41 };
+42 
+44 <emphasis class="keyword">enum</emphasis>
+45 {
+<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14">46 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14">LF_MINNEED</link>&#32;=&#32;2,&#32;
+<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f">47 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f">LF_MAXNEED</link>&#32;=&#32;3,&#32;
+<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4">48 </link>&#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4">LF_BORN</link>&#32;=&#32;3&#32;&#32;&#32;&#32;&#32;
+49 };
+50 
+<link linkend="structmsgb">52 </link><emphasis class="keyword">struct&#32;</emphasis><link linkend="structmsgb">msgb</link>{
+<link linkend="structmsgb_1ac484c31c03a19ecf6c602d2beb805267">53 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">long</emphasis>&#32;<link linkend="structmsgb_1ac484c31c03a19ecf6c602d2beb805267">msgtype</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="structmsgb_1adcb32367e9da1068f2e7a266f9c16f20">54 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structmsgb_1adcb32367e9da1068f2e7a266f9c16f20">data</link>[<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83">DATA_SIZE</link>];&#32;
+55 };
+56 
+66 <emphasis class="keywordtype">int</emphasis>
+67 <link linkend="lifeop_8h_1aae0b7e9569a84f89761ab2f642a8a459">processcmd</link>(<emphasis class="keywordtype">char</emphasis>&#32;*cmd,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*msgid,&#32;<emphasis class="keywordtype">int</emphasis>&#32;semid);
+68 
+75 <emphasis class="keywordtype">void</emphasis>
+76 <link linkend="lifeop_8h_1a3f37c599f55a2b67ff121e6c37df7630">clearfld</link>(<emphasis class="keywordtype">int</emphasis>&#32;**fld,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structborder">border</link>&#32;*borders,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc);
+77 
+99 <emphasis class="keywordtype">int</emphasis>
+100 <link linkend="lifeop_8h_1a67be292e3bb47697a2ce1391363c5298">start</link>(
+101 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;P,
+102 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;mode,
+103 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;**fld,
+104 &#32;&#32;&#32;&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structborder">border</link>&#32;*borders,
+105 &#32;&#32;&#32;&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,
+106 &#32;&#32;&#32;&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc,
+107 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;semid,
+108 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;num,
+109 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*msgid);
+110 
+124 <emphasis class="keywordtype">void</emphasis>
+125 <link linkend="lifeop_8h_1a5a4fae3e7116c3fc2eed053fbd3e7d70">snap</link>(<emphasis class="keywordtype">int</emphasis>&#32;**fld,&#32;<emphasis class="keywordtype">int</emphasis>&#32;mode,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc,&#32;<emphasis class="keywordtype">int</emphasis>&#32;semid,&#32;<emphasis class="keywordtype">int</emphasis>&#32;num);
+126 
+127 <emphasis class="preprocessor">#endif&#32;//&#32;LIFEOP_H_INCLUDED</emphasis>
+    </computeroutput></literallayout>
+</section>

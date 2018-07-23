@@ -1,0 +1,241 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="lifefld_8c">
+    <title>lifefld.c File Reference</title>
+    <programlisting>#include &lt;stdlib.h&gt;</programlisting>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/ipc.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/shm.h&gt;</programlisting>
+    <programlisting>#include &lt;math.h&gt;</programlisting>
+    <programlisting>#include &quot;lifefld.h&quot;</programlisting>
+        <section>
+            <title>Функции</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="lifefld_8c_1a32300bb46d9c00fa91aeabb9966f8b35">coverfld</link> (
+int m, int n, int k, int * procvert, int * procgor)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int ** <link linkend="lifefld_8c_1af4b0e2749728ae38395e689d7158c4d1">fldcreate</link> (
+struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifefld_8c_1a2ace44c9453b8a3039dc1ca159290af9">get_borders</link> (
+struct <link linkend="structborder">border</link> * borders, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc, int ** shmid)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifefld_8c_1a021e16a77a7d22b764f04ca286de10bd">rmfld</link> (
+int ** fld, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifefld_8c_1a7a0276abe2b2c8b8b4820e3664340739">rmborder</link> (
+struct <link linkend="structborder">border</link> * borders, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="lifefld_8c_1a33d22361defb8f49f54304fe19240abe">checkhit</link> (
+int * x, int * y, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Подробное описание</title>
+    <para>Definition in file /home/anton/Dropbox/Программирование/Жизнь/lifefld.c</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 <emphasis class="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+2 <emphasis class="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+3 <emphasis class="preprocessor">#include&#32;&lt;sys/ipc.h&gt;</emphasis>
+4 <emphasis class="preprocessor">#include&#32;&lt;sys/shm.h&gt;</emphasis>
+5 <emphasis class="preprocessor">#include&#32;&lt;math.h&gt;</emphasis>
+6 <emphasis class="preprocessor">#include&#32;&quot;<link linkend="lifefld_8h">lifefld.h</link>&quot;</emphasis>
+7 
+8 <emphasis class="keywordtype">int</emphasis>
+<link linkend="lifefld_8h_1a32300bb46d9c00fa91aeabb9966f8b35">9 </link><link linkend="lifefld_8h_1a32300bb46d9c00fa91aeabb9966f8b35">coverfld</link>(<emphasis class="keywordtype">int</emphasis>&#32;m,&#32;<emphasis class="keywordtype">int</emphasis>&#32;n,&#32;<emphasis class="keywordtype">int</emphasis>&#32;k,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*procvert,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*procgor)
+10 {
+11 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;proc_vert&#32;=&#32;0;
+12 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;proc_gor&#32;=&#32;0;
+13 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;maxarea&#32;=&#32;0;
+14 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;maxside&#32;=&#32;m;
+15 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;minside&#32;=&#32;n;
+16 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(n&#32;&gt;&#32;m){
+17 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maxside&#32;=&#32;n;
+18 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;minside&#32;=&#32;m;
+19 &#32;&#32;&#32;&#32;}
+20 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;sqrside&#32;=&#32;0;
+21 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;1;&#32;i&#32;&lt;=&#32;sqrt(k)&#32;+&#32;1;&#32;i++){
+22 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;side&#32;=&#32;i;
+23 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;other_side&#32;=&#32;k&#32;/&#32;i;
+24 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;tmpsqrside&#32;=&#32;minside&#32;/&#32;i;
+25 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(maxside&#32;/&#32;other_side&#32;&lt;&#32;tmpsqrside){
+26 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;tmpsqrside&#32;=&#32;maxside&#32;/&#32;other_side;
+27 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+28 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(k&#32;%&#32;i){
+29 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;side++;
+30 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+31 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(i&#32;&lt;=&#32;minside){
+32 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;tmp_area&#32;=&#32;tmpsqrside&#32;*&#32;tmpsqrside&#32;&#32;*&#32;k;
+33 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>&#32;(tmp_area&#32;&gt;&#32;maxarea){
+34 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;maxarea&#32;=&#32;tmp_area;
+35 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;sqrside&#32;=&#32;tmpsqrside;
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(maxside&#32;==&#32;m){
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc_vert&#32;=&#32;other_side;
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc_gor&#32;=&#32;side;
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>{
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc_vert&#32;=&#32;side;
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;proc_gor&#32;=&#32;other_side;
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+43 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+44 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+45 &#32;&#32;&#32;&#32;}
+46 &#32;&#32;&#32;&#32;*procvert&#32;=&#32;proc_vert;
+47 &#32;&#32;&#32;&#32;*procgor&#32;=&#32;proc_gor;
+48 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;sqrside;
+49 }
+50 
+51 <emphasis class="keywordtype">int</emphasis>&#32;**
+<link linkend="lifefld_8h_1af4b0e2749728ae38395e689d7158c4d1">52 </link><link linkend="lifefld_8h_1af4b0e2749728ae38395e689d7158c4d1">fldcreate</link>(<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc)
+53 {
+54 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;**fld&#32;=&#32;malloc(proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>&#32;*&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;*));
+55 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;i&#32;=&#32;0;&#32;i&#32;&lt;&#32;proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>;&#32;i++){
+56 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fld[i]&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+57 &#32;&#32;&#32;&#32;}
+58 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;fld;
+59 }
+60 
+61 <emphasis class="keywordtype">void</emphasis>
+<link linkend="lifefld_8h_1a2ace44c9453b8a3039dc1ca159290af9">62 </link><link linkend="lifefld_8h_1a2ace44c9453b8a3039dc1ca159290af9">get_borders</link>(<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structborder">border</link>&#32;*borders,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc,&#32;<emphasis class="keywordtype">int</emphasis>&#32;**shmid)
+63 {
+64 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;!=&#32;0){
+65 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">left_neighbor</link>&#32;=&#32;shmat(shmid[0][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;-&#32;2],&#32;NULL,&#32;0);
+66 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">left_neighbor</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+67 
+68 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">left_border</link>&#32;=&#32;shmat(shmid[0][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;-&#32;1],&#32;NULL,&#32;0);
+69 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">left_border</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+70 
+71 
+72 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+73 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">left_neighbor</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+74 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">left_border</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+75 &#32;&#32;&#32;&#32;}
+76 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(fldp-&gt;<link linkend="structfld__param_1a76f11d9a0a47b94f72c2d0e77fb32240">n</link>&#32;!=&#32;proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>&#32;-&#32;2&#32;+&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>){
+77 
+78 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">right_border</link>&#32;=&#32;shmat(shmid[0][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>],&#32;NULL,&#32;0);
+79 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">right_border</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+80 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">right_neighbor</link>&#32;=&#32;shmat(shmid[0][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;+&#32;1],&#32;NULL,&#32;0);
+81 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">right_neighbor</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+82 
+83 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+84 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">right_neighbor</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+85 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">right_border</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+86 &#32;&#32;&#32;&#32;}
+87 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;!=&#32;0){
+88 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">up_neighbor</link>&#32;=&#32;shmat(shmid[1][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;-&#32;2],&#32;NULL,&#32;0);
+89 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">up_neighbor</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+90 
+91 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">up_border</link>&#32;=&#32;shmat(shmid[1][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;-&#32;1],&#32;NULL,&#32;0);
+92 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">up_border</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+93 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+94 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">up_neighbor</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+95 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">up_border</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+96 &#32;&#32;&#32;&#32;}
+97 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(fldp-&gt;<link linkend="structfld__param_1a742204794ea328ba293fe59cec79b990">m</link>&#32;!=&#32;proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>&#32;-&#32;2&#32;+&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>){
+98 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">down_border</link>&#32;=&#32;shmat(shmid[1][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>],&#32;NULL,&#32;0);
+99 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">down_border</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+100 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">down_neighbor</link>&#32;=&#32;shmat(shmid[1][2&#32;*&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;+&#32;1],&#32;NULL,&#32;0);
+101 
+102 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">down_neighbor</link>&#32;+=&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+103 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+104 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">down_neighbor</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+105 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;borders-&gt;<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">down_border</link>&#32;=&#32;calloc(proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>,&#32;<emphasis class="keyword">sizeof</emphasis>(<emphasis class="keywordtype">int</emphasis>));
+106 &#32;&#32;&#32;&#32;}
+107 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>;
+108 }
+109 
+110 <emphasis class="keywordtype">void</emphasis>
+<link linkend="lifefld_8h_1a021e16a77a7d22b764f04ca286de10bd">111 </link><link linkend="lifefld_8h_1a021e16a77a7d22b764f04ca286de10bd">rmfld</link>(<emphasis class="keywordtype">int</emphasis>&#32;**fld,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc)
+112 {
+113 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">for</emphasis>(<emphasis class="keywordtype">int</emphasis>&#32;t&#32;=&#32;0;&#32;t&#32;&lt;&#32;proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>;&#32;t++){
+114 &#32;&#32;&#32;&#32;&#32;&#32;&#32;free(fld[t]);
+115 &#32;&#32;&#32;&#32;}
+116 &#32;&#32;&#32;&#32;free(fld);
+117 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>;
+118 }
+119 
+120 <emphasis class="keywordtype">void</emphasis>
+<link linkend="lifefld_8h_1a7a0276abe2b2c8b8b4820e3664340739">121 </link><link linkend="lifefld_8h_1a7a0276abe2b2c8b8b4820e3664340739">rmborder</link>(<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structborder">border</link>&#32;*borders,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc)
+122 {
+123 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;!=&#32;0){
+124 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">left_neighbor</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+125 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">left_border</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+126 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+127 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">left_neighbor</link>);
+128 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">left_border</link>);
+129 &#32;&#32;&#32;&#32;}
+130 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(fldp-&gt;<link linkend="structfld__param_1a76f11d9a0a47b94f72c2d0e77fb32240">n</link>&#32;!=&#32;proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>&#32;-&#32;2&#32;+&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>){
+131 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">right_neighbor</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+132 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">right_border</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+133 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+134 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">right_neighbor</link>);
+135 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">right_border</link>);
+136 &#32;&#32;&#32;&#32;}
+137 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;!=&#32;0){
+138 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">up_neighbor</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+139 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">up_border</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+140 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+141 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">up_neighbor</link>);
+142 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">up_border</link>);
+143 &#32;&#32;&#32;&#32;}
+144 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(fldp-&gt;<link linkend="structfld__param_1a742204794ea328ba293fe59cec79b990">m</link>&#32;!=&#32;proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>&#32;-&#32;2&#32;+&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>){
+145 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">down_neighbor</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+146 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;shmdt(borders-&gt;<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">down_border</link>&#32;-&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>);
+147 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+148 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">down_neighbor</link>);
+149 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;free(borders-&gt;<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">down_border</link>);
+150 &#32;&#32;&#32;&#32;}
+151 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>;
+152 }
+153 
+154 <emphasis class="keywordtype">int</emphasis>
+<link linkend="lifefld_8h_1a33d22361defb8f49f54304fe19240abe">155 </link><link linkend="lifefld_8h_1a33d22361defb8f49f54304fe19240abe">checkhit</link>(<emphasis class="keywordtype">int</emphasis>&#32;*x,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*y,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc)
+156 {
+157 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;x1&#32;=&#32;*x;
+158 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>&#32;&lt;&#32;x1&#32;&amp;&amp;&#32;x1&#32;&lt;=&#32;proc-&gt;num_vert&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>&#32;+&#32;proc-&gt;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>&#32;-&#32;2){
+159 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;x1&#32;-=&#32;proc-&gt;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+160 &#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+161 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;0;
+162 &#32;&#32;&#32;&#32;}
+163 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(y){
+164 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;y1&#32;=&#32;*y;
+165 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>&#32;&lt;&#32;y1&#32;&amp;&amp;&#32;y1&#32;&lt;=&#32;proc-&gt;num_gor&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>&#32;+&#32;proc-&gt;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>&#32;-&#32;2){
+166 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;y1&#32;-=&#32;proc-&gt;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>&#32;*&#32;fldp-&gt;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;
+167 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}&#32;<emphasis class="keywordflow">else</emphasis>&#32;{
+168 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;0;
+169 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+170 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;*y&#32;=&#32;y1;
+171 &#32;&#32;&#32;&#32;}
+172 &#32;&#32;&#32;&#32;*x&#32;=&#32;x1;
+173 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;1;
+174 }
+    </computeroutput></literallayout>
+</section>

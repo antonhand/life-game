@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="life-client_8c">
+    <title>life-client.c File Reference</title>
+    <programlisting>#include &lt;stdio.h&gt;</programlisting>
+    <programlisting>#include &lt;stdlib.h&gt;</programlisting>
+    <programlisting>#include &lt;unistd.h&gt;</programlisting>
+    <programlisting>#include &lt;fcntl.h&gt;</programlisting>
+    <programlisting>#include &lt;string.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/wait.h&gt;</programlisting>
+    <programlisting>#include &lt;sys/stat.h&gt;</programlisting>
+        <section>
+            <title>Перечисления</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                            <para><literallayout>enum <link linkend="life-client_8c_1a06fc87d81c62e9abb8790b6e5713c55b">@0</link> {
+<link linkend="life-client_8c_1a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>= 0666,
+<link linkend="life-client_8c_1a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>= 32
+}</literallayout>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Функции</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="life-client_8c_1a840291bc02cba5474a4cb46a9b9566fe">main</link> (
+void )</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Подробное описание</title>
+    <para>Definition in file /home/anton/Dropbox/Программирование/Жизнь/life-client.c</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 <emphasis class="preprocessor">#include&#32;&lt;stdio.h&gt;</emphasis>
+2 <emphasis class="preprocessor">#include&#32;&lt;stdlib.h&gt;</emphasis>
+3 <emphasis class="preprocessor">#include&#32;&lt;unistd.h&gt;</emphasis>
+4 <emphasis class="preprocessor">#include&#32;&lt;fcntl.h&gt;</emphasis>
+5 <emphasis class="preprocessor">#include&#32;&lt;string.h&gt;</emphasis>
+6 <emphasis class="preprocessor">#include&#32;&lt;sys/wait.h&gt;</emphasis>
+7 <emphasis class="preprocessor">#include&#32;&lt;sys/stat.h&gt;</emphasis>
+8 
+9 <emphasis class="keyword">enum</emphasis>&#32;{
+10 &#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>&#32;=&#32;0666,
+11 &#32;&#32;&#32;&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>&#32;=&#32;32
+12 };
+13 
+14 <emphasis class="keywordtype">int</emphasis>&#32;main(<emphasis class="keywordtype">void</emphasis>)
+15 {
+16 &#32;&#32;&#32;&#32;mkfifo(<emphasis class="stringliteral">&quot;ctos&quot;</emphasis>,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2">RIGHTS</link>);
+17 &#32;&#32;&#32;&#32;<emphasis class="comment">//mkfifo(&quot;stoc&quot;,&#32;RIGHTS);</emphasis>
+18 &#32;&#32;&#32;<emphasis class="comment">/*&#32;if(!fork()){</emphasis>
+19 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;fd1&#32;=&#32;open(&quot;stoc&quot;,&#32;O_RDONLY,&#32;0);</emphasis>
+20 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;dup2(fd1,&#32;0);</emphasis>
+21 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;close(fd1);</emphasis>
+22 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;int&#32;work&#32;=&#32;1;</emphasis>
+23 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;while(work){</emphasis>
+24 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;char&#32;c[50];</emphasis>
+25 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fgets(c,&#32;50,&#32;stdin);</emphasis>
+26 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;puts(c);</emphasis>
+27 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}printf(&quot;ee\n&quot;);</emphasis>
+28 <emphasis class="comment">&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;exit(0);</emphasis>
+29 <emphasis class="comment">&#32;&#32;&#32;&#32;}*/</emphasis>
+30 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;fd2&#32;=&#32;open(<emphasis class="stringliteral">&quot;ctos&quot;</emphasis>,&#32;O_WRONLY,&#32;0);
+31 &#32;&#32;&#32;&#32;dup2(fd2,&#32;1);
+32 &#32;&#32;&#32;&#32;close(fd2);
+33 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">char</emphasis>&#32;cmd[<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>];
+34 &#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;work&#32;=&#32;1;
+35 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">while</emphasis>(work){
+36 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;cmd[0]&#32;=&#32;<emphasis class="charliteral">&apos;\0&apos;</emphasis>;
+37 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fgets(cmd,&#32;<link linkend="lifeop_8h_1adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc">CMDSIZE</link>,&#32;stdin);
+38 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;<emphasis class="keywordflow">if</emphasis>(strstr(cmd,&#32;<emphasis class="stringliteral">&quot;quit&quot;</emphasis>)&#32;||&#32;strstr(cmd,&#32;<emphasis class="stringliteral">&quot;выход&quot;</emphasis>)){
+39 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;work&#32;=&#32;0;
+40 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;}
+41 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;puts(cmd);
+42 &#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;fflush(stdout);
+43 &#32;&#32;&#32;&#32;}
+44 &#32;&#32;&#32;&#32;<emphasis class="comment">//wait(NULL);</emphasis>
+45 &#32;&#32;&#32;&#32;<emphasis class="keywordflow">return</emphasis>&#32;0;
+46 }
+    </computeroutput></literallayout>
+</section>

@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<book xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <info>
+    <title>Жизнь</title>
+    </info>
+    <chapter>
+        <title>Структуры данных</title>
+        <xi:include href="structborder.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="structfld__param.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="structmsgb.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="structproc__param.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </chapter>
+    <chapter>
+        <title>Файлы</title>
+        <xi:include href="life-client_8c.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="life-server_8c.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="lifefld_8c.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="lifefld_8h.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="lifeop_8c.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+        <xi:include href="lifeop_8h.xml" xmlns:xi="http://www.w3.org/2001/XInclude"/>
+    </chapter>
+</book>

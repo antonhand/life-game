@@ -1,0 +1,497 @@
+\hypertarget{lifeop_8c}{}\section{Файл /home/anton/\+Dropbox/Программирование/Жизнь/lifeop.c}
+\label{lifeop_8c}\index{/home/anton/\+Dropbox/Программирование/Жизнь/lifeop.\+c@{/home/anton/\+Dropbox/Программирование/Жизнь/lifeop.\+c}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$sys/ipc.\+h$>$}\\*
+{\ttfamily \#include $<$sys/shm.\+h$>$}\\*
+{\ttfamily \#include $<$sys/sem.\+h$>$}\\*
+{\ttfamily \#include $<$sys/msg.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$errno.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}lifeop.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lifefld.\+h\char`\"{}}\\*
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{lifeop_8c_aae0b7e9569a84f89761ab2f642a8a459}{processcmd} (char $\ast$cmd, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, int $\ast$msgid, int semid)
+\item 
+void \hyperlink{lifeop_8c_a3f37c599f55a2b67ff121e6c37df7630}{clearfld} (int $\ast$$\ast$fld, struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+int \hyperlink{lifeop_8c_a67be292e3bb47697a2ce1391363c5298}{start} (int P, int mode, int $\ast$$\ast$fld, struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc, int semid, int num, int $\ast$msgid)
+\item 
+void \hyperlink{lifeop_8c_a5a4fae3e7116c3fc2eed053fbd3e7d70}{snap} (int $\ast$$\ast$fld, int mode, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc, int semid, int num)
+\end{DoxyCompactItemize}
+
+
+\subsection{Функции}
+\index{lifeop.\+c@{lifeop.\+c}!clearfld@{clearfld}}
+\index{clearfld@{clearfld}!lifeop.\+c@{lifeop.\+c}}
+\subsubsection[{\texorpdfstring{clearfld(int $\ast$$\ast$fld, struct border $\ast$borders, struct proc\+\_\+param $\ast$proc)}{clearfld(int **fld, struct border *borders, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}void clearfld (
+\begin{DoxyParamCaption}
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8c_a3f37c599f55a2b67ff121e6c37df7630}{}\label{lifeop_8c_a3f37c599f55a2b67ff121e6c37df7630}
+Очищает участок поля процесса от «живых» клеток 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em borders} & Указатель на структуру с границами участка поля процесса \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifeop.\+c строка 97
+
+
+\begin{DoxyCode}
+98 \{
+99     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}; i++)\{
+100         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}; j++)\{
+101             fld[i][j] = 0;
+102         \}
+103         borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border}[i] = 0;
+104         borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border}[i] = 0;
+105     \}
+106     \textcolor{keywordflow}{return};
+107 \}
+\end{DoxyCode}
+\index{lifeop.\+c@{lifeop.\+c}!processcmd@{processcmd}}
+\index{processcmd@{processcmd}!lifeop.\+c@{lifeop.\+c}}
+\subsubsection[{\texorpdfstring{processcmd(char $\ast$cmd, struct fld\+\_\+param $\ast$fldp, int $\ast$msgid, int semid)}{processcmd(char *cmd, struct fld_param *fldp, int *msgid, int semid)}}]{\setlength{\rightskip}{0pt plus 5cm}int processcmd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{cmd, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{int $\ast$}]{msgid, }
+\item[{int}]{semid}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8c_aae0b7e9569a84f89761ab2f642a8a459}{}\label{lifeop_8c_aae0b7e9569a84f89761ab2f642a8a459}
+Преобразует команду, поступившую в виде строки, и отправляет её рабочим процессам 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em cmd} & Строка с командой \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\mbox{\tt in}  & {\em msgid} & Массив дескрипторов очередей сообщений к процессам \\
+\hline
+\mbox{\tt in}  & {\em semid} & Дескриптор массива семафоров \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+0 в случае успешной обработки, номер ошибки в случае поступления некорректной команды 
+\end{DoxyReturn}
+
+
+См. определение в файле lifeop.\+c строка 16
+
+
+\begin{DoxyCode}
+17 \{
+18     \textcolor{keywordtype}{char} oper[\hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{CMDSIZE}];
+19     oper[0] = \textcolor{charliteral}{'\(\backslash\)0'};
+20     \textcolor{keyword}{struct }\hyperlink{structmsgb}{msgb} msg;
+21     msg.\hyperlink{structmsgb_adcb32367e9da1068f2e7a266f9c16f20}{data}[0] = 0;
+22     msg.data[1] = 0;
+23     sscanf(cmd, \textcolor{stringliteral}{"%s"}, oper);
+24     \textcolor{keywordflow}{if}(!strcmp(oper, \textcolor{stringliteral}{"add"}) || !strcmp(oper, \textcolor{stringliteral}{"добавить"}) )\{
+25         \textcolor{keywordtype}{int} x, y;
+26         \textcolor{keywordflow}{if}(sscanf(cmd, \textcolor{stringliteral}{"%s%d%d"}, oper, &x, &y) == 3)\{
+27             \textcolor{keywordflow}{if}(x > 0 && x <= fldp->m && y > 0 && x <= fldp->n)\{
+28                 msg.msgtype = \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff}{LF\_ADD};
+29                 msg.data[0] = x;
+30                 msg.data[1] = y;
+31 
+32             \} \textcolor{keywordflow}{else} \{
+33                 printf(\textcolor{stringliteral}{"ОШИБКА: указанная клетка находится за пределом поля.\(\backslash\)n"});
+34                 fflush(stdout);
+35                 \textcolor{keywordflow}{return} \hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805}{LF\_ER\_OUTOFFLD};
+36             \}
+37         \} \textcolor{keywordflow}{else} \{
+38             printf(\textcolor{stringliteral}{"ОШИБКА: неверное количество аргументов.\(\backslash\)n"});
+39             fflush(stdout);
+40             \textcolor{keywordflow}{return} \hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f}{LF\_ER\_WRNUMARG};
+41         \}
+42     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(!strcmp(oper, \textcolor{stringliteral}{"clear"}) || !strcmp(oper, \textcolor{stringliteral}{"очистить"}))\{
+43 
+44         msg.msgtype = \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9}{LF\_CLR};
+45     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(!strcmp(oper, \textcolor{stringliteral}{"start"}) || !strcmp(oper, \textcolor{stringliteral}{"старт"}))\{
+46         \textcolor{keywordtype}{int} P;
+47         msg.msgtype = \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e}{LF\_START};
+48         \textcolor{keywordflow}{if}(sscanf(cmd, \textcolor{stringliteral}{"%s%d"}, oper, &P) > 1)\{
+49             \textcolor{keywordflow}{if}(P > 0)\{
+50                 msg.data[0] = P;
+51             \} \textcolor{keywordflow}{else} \{
+52                 printf(\textcolor{stringliteral}{"ОШИБКА: количество поколений должно быть больше нуля.\(\backslash\)n"});
+53                 fflush(stdout);
+54                 \textcolor{keywordflow}{return} \hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6}{LF\_ER\_BADARG};
+55             \}
+56 
+57         \} \textcolor{keywordflow}{else} \{
+58             msg.data[0] = -1;
+59         \}
+60         \textcolor{keywordtype}{int} x = 0;
+61         \textcolor{keywordflow}{if}(strstr(cmd, \textcolor{stringliteral}{"-rt"}) || strstr(cmd, \textcolor{stringliteral}{"-рв"}))\{
+62             x = 1;
+63         \}
+64         msg.data[1] = x;
+65     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(!strcmp(oper, \textcolor{stringliteral}{"stop"}) || !strcmp(oper, \textcolor{stringliteral}{"стоп"}))\{
+66         msg.msgtype = \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38}{LF\_STOP};
+67     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(!strcmp(oper, \textcolor{stringliteral}{"snapshot"}) || !strcmp(oper, \textcolor{stringliteral}{"состояние"}))\{
+68         msg.msgtype = \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b}{LF\_SNAP};
+69         \textcolor{keywordtype}{int} x = 0;
+70         \textcolor{keywordflow}{if}(strstr(cmd, \textcolor{stringliteral}{"-prcs"}) || strstr(cmd, \textcolor{stringliteral}{"-прцс"}))\{
+71             x = 1;
+72         \}
+73         msg.data[0] = x;
+74     \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(!strcmp(oper, \textcolor{stringliteral}{"quit"}) || !strcmp(oper, \textcolor{stringliteral}{"выход"}))\{
+75         msg.msgtype = \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{LF\_QUIT};
+76     \} \textcolor{keywordflow}{else} \{
+77         \textcolor{keywordflow}{return} \hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7}{LF\_ER\_CMD};
+78     \}
+79     \textcolor{keyword}{struct }sembuf sem[2];
+80     sem[0].sem\_num = 2;
+81     sem[0].sem\_flg = 0;
+82     sem[0].sem\_op = 0;
+83     sem[1].sem\_num = 1;
+84     sem[1].sem\_flg = 0;
+85     sem[1].sem\_op = 1;
+86     semop(semid, sem, 2);
+87     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k}; i++)\{
+88         msgsnd(msgid[i], &msg, \hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83}{DATA\_SIZE} * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 0);
+89     \}
+90     sem[0].sem\_num = 1;
+91     sem[0].sem\_op = -1;
+92     semop(semid, sem, 1);
+93     \textcolor{keywordflow}{return} msg.msgtype;
+94 \}
+\end{DoxyCode}
+\index{lifeop.\+c@{lifeop.\+c}!snap@{snap}}
+\index{snap@{snap}!lifeop.\+c@{lifeop.\+c}}
+\subsubsection[{\texorpdfstring{snap(int $\ast$$\ast$fld, int mode, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc, int semid, int num)}{snap(int **fld, int mode, struct fld_param *fldp, struct proc_param *proc, int semid, int num)}}]{\setlength{\rightskip}{0pt plus 5cm}void snap (
+\begin{DoxyParamCaption}
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{int}]{mode, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc, }
+\item[{int}]{semid, }
+\item[{int}]{num}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8c_a5a4fae3e7116c3fc2eed053fbd3e7d70}{}\label{lifeop_8c_a5a4fae3e7116c3fc2eed053fbd3e7d70}
+Выводит на экран текущее состояние поля 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em mode} & Режим отображения \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\mbox{\tt in}  & {\em semid} & Дескриптор массива семафоров \\
+\hline
+\mbox{\tt in}  & {\em num} & Номер процесса\\
+\hline
+\end{DoxyParams}
+Вызывается в случае поступления команды «snapshot»/«состояние» от клиента.
+
+Имеет 2 режима отображения\+: 0 -\/ отображение живых и не живых клеток, 1 -\/ отображение номера отвечающего за каждую клетку процесса. Режим отображения номеров процессов включается добавлением к команде «snapshot»/«состояние» флага «-\/prcs»/«-\/прцс». 
+
+См. определение в файле lifeop.\+c строка 295
+
+
+\begin{DoxyCode}
+296 \{
+297     key\_t key = ftok(\textcolor{stringliteral}{"life-server"}, \textcolor{charliteral}{'r'});
+298     \textcolor{keywordtype}{int} shmprint = shmget(key, (fldp->\hyperlink{structfld__param_a76f11d9a0a47b94f72c2d0e77fb32240}{n} + 1) * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{char}), \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS} | IPC\_CREAT);
+299     \textcolor{keywordtype}{char} *shm = shmat(shmprint, NULL, 0);
+300     \textcolor{keyword}{struct }sembuf sem[2];
+301     sem[0].sem\_num = 3;
+302     sem[0].sem\_flg = 0;
+303     sem[1].sem\_num = 4;
+304     sem[1].sem\_flg = 0;
+305     \textcolor{keywordflow}{if}(num == 0)\{
+306             shm[fldp->\hyperlink{structfld__param_a76f11d9a0a47b94f72c2d0e77fb32240}{n}] = \textcolor{charliteral}{'\(\backslash\)0'};
+307     \}
+308     shm += proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+309     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} curline = 1; curline <= fldp->\hyperlink{structfld__param_a742204794ea328ba293fe59cec79b990}{m}; curline++)\{
+310         sem[1].sem\_op = 0;
+311         semop(semid, &sem[1], 1);
+312 
+313         \textcolor{keywordtype}{int} x = curline;
+314         \textcolor{keywordflow}{if}(\hyperlink{lifefld_8c_a33d22361defb8f49f54304fe19240abe}{checkhit}(&x, NULL, fldp, proc))\{
+315             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 1; i < proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 1; i++)\{
+316                 \textcolor{keywordflow}{if}(!mode)\{
+317                     \textcolor{keywordflow}{if}(fld[x][i])\{
+318                         shm[i - 1] = \textcolor{charliteral}{'*'};
+319                     \} \textcolor{keywordflow}{else} \{
+320                         shm[i - 1] = \textcolor{charliteral}{'.'};
+321                     \}
+322                 \} \textcolor{keywordflow}{else} \{
+323                     shm[i - 1] = num;
+324                 \}
+325             \}
+326         \}
+327 
+328         sem[0].sem\_op = 1;
+329         semop(semid, sem, 1);
+330         \textcolor{keywordflow}{if}(num == 0)\{
+331             sem[0].sem\_op = -fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k};
+332             semop(semid, sem, 1);
+333             \textcolor{keywordflow}{if}(!mode)\{
+334                 puts(shm);
+335             \} \textcolor{keywordflow}{else} \{
+336                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < fldp->\hyperlink{structfld__param_a76f11d9a0a47b94f72c2d0e77fb32240}{n}; i++)\{
+337                     printf(\textcolor{stringliteral}{"%2d "}, shm[i]);
+338                 \}
+339                 printf(\textcolor{stringliteral}{"\(\backslash\)n"});
+340                 fflush(stdout);
+341             \}
+342             fflush(stdout);
+343             sem[1].sem\_op = -fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k} + 1;
+344             semop(semid, &sem[1], 1);
+345         \}
+346         \textcolor{keywordflow}{if}(num != 0)\{
+347             sem[0].sem\_op = 0;
+348             semop(semid, sem, 1);
+349             sem[1].sem\_op = 1;
+350             semop(semid, sem, 2);
+351         \}
+352     \}
+353     shmdt(shm - proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+354     shmctl(shmprint, IPC\_RMID, NULL);
+355     \textcolor{keywordflow}{return};
+356 \}
+\end{DoxyCode}
+\index{lifeop.\+c@{lifeop.\+c}!start@{start}}
+\index{start@{start}!lifeop.\+c@{lifeop.\+c}}
+\subsubsection[{\texorpdfstring{start(int P, int mode, int $\ast$$\ast$fld, struct border $\ast$borders, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc, int semid, int num, int $\ast$msgid)}{start(int P, int mode, int **fld, struct border *borders, struct fld_param *fldp, struct proc_param *proc, int semid, int num, int *msgid)}}]{\setlength{\rightskip}{0pt plus 5cm}int start (
+\begin{DoxyParamCaption}
+\item[{int}]{P, }
+\item[{int}]{mode, }
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc, }
+\item[{int}]{semid, }
+\item[{int}]{num, }
+\item[{int $\ast$}]{msgid}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8c_a67be292e3bb47697a2ce1391363c5298}{}\label{lifeop_8c_a67be292e3bb47697a2ce1391363c5298}
+Запускает и производит процесс моделирования игры 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em P} & Номер поколения, до которого производить моделирование \\
+\hline
+\mbox{\tt in}  & {\em mode} & Режим запуска \\
+\hline
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em borders} & Указатель на структуру с границами участка поля процесса \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\mbox{\tt in}  & {\em semid} & Дескриптор массива семафоров \\
+\hline
+\mbox{\tt in}  & {\em num} & Номер процесса \\
+\hline
+\mbox{\tt in}  & {\em msgid} & Массив дескрипторов очередей сообщений к процессам \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+0 в случае успешной обработки, L\+F\+\_\+\+Q\+U\+IT, в случае получения команды о выходе из программы во время работы функции
+\end{DoxyReturn}
+Вызывается в случае поступления команды «start \{P\}»/«старт \{P\}» от клиента.
+
+В случае, если P $<$ 0 выполняет моделирование до команды остановки либо до команды завершения работы программы.
+
+Имеет 2 режима работы (mode)\+: 0 -\/ скрытый режим (не отображает состояние поля до поступления соответствующей команды) 1 -\/ режим визуализации изменения состояния клеточной поверхности по ходу моделирования (для наглядности при этом процесс моделирования искусственно тормозится). Режим визуализации включается добавлением к команде «start \{P\}»/«старт \{P\}» флага «-\/rt»/«-\/рв».
+
+После моделирования каждого поколения проверяет, не поступила ли новая команда. В случае поступления команды сначала выполняет её, а затем приступает к моделированию следующего поколения. 
+
+См. определение в файле lifeop.\+c строка 110
+
+
+\begin{DoxyCode}
+120 \{
+121     \textcolor{keyword}{struct }sembuf sem[2];
+122     sem[0].sem\_flg = 0;
+123     sem[1].sem\_flg = 0;
+124     \textcolor{keywordtype}{int} iter = abs(P);
+125     \textcolor{keywordflow}{while}(iter)\{
+126         sem[0].sem\_num = 0;
+127         sem[1].sem\_num = 0;
+128         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}; i++)\{
+129             fld[i][0] = borders->\hyperlink{structborder_ad9180674bd187d2d03c1df75cfe09b5c}{left\_neighbor}[i] + 2;
+130             fld[i][proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 1] = borders->\hyperlink{structborder_aba1475f2a488b21361600147af4a88d6}{right\_neighbor}[i] + 2;
+131         \}
+132         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}; j++)\{
+133             \textcolor{keywordflow}{if}(fld[0][j] != 3)\{
+134                 fld[0][j] = borders->\hyperlink{structborder_a517e3084650ac9f1b2082b166e0396e3}{up\_neighbor}[j];
+135             \} \textcolor{keywordflow}{else} \{
+136                 fld[0][j] = 1;
+137             \}
+138             \textcolor{keywordflow}{if}(fld[proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 1][j] != 3)\{
+139                 fld[proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 1][j] = borders->\hyperlink{structborder_af38f8c295590a5b07d90ccf4b246692b}{down\_neighbor}[j];
+140             \} \textcolor{keywordflow}{else} \{
+141                 fld[proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 1][j] = 1;
+142             \}
+143         \}
+144         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}; i++)\{
+145             fld[i][0] %= 2;
+146             fld[i][proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 1] %= 2;
+147         \}
+148         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 1; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 1; i++)\{
+149             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 1; j++)\{
+150                 \textcolor{keywordtype}{int} count\_alive = 0;
+151                 \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} t = -1; t <= 1; t++)\{
+152                     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} f = -1; f <= 1; f++)\{
+153                         \textcolor{keywordflow}{if}((t != 0 || f != 0) && fld[i + t][j + f] % 2)\{
+154                             count\_alive++;
+155                         \}
+156                     \}
+157                 \}
+158                 \textcolor{keywordflow}{if}(fld[i][j] && (count\_alive > \hyperlink{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f}{LF\_MAXNEED} || count\_alive < 
+      \hyperlink{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14}{LF\_MINNEED}))\{
+159                     fld[i][j] += 2;
+160                 \} \textcolor{keywordflow}{else} \textcolor{keywordflow}{if}(!fld[i][j] && count\_alive == \hyperlink{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4}{LF\_BORN})\{
+161                     fld[i][j] += 2;
+162                 \}
+163             \}
+164         \}
+165         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 1; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 1; i++)\{
+166             \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 1; j++)\{
+167                 \textcolor{keywordflow}{if}(fld[i][j] == 3)\{
+168                     fld[i][j] = 0;
+169                 \}
+170                 \textcolor{keywordflow}{if}(fld[i][j] == 2)\{
+171                     fld[i][j] = 1;
+172                 \}
+173             \}
+174          \}
+175         sem[0].sem\_op = 1;
+176         semop(semid, sem, 1);
+177         \textcolor{keywordflow}{if}(num == 0)\{
+178             sem[0].sem\_op = -fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k};
+179             semop(semid, sem, 1);
+180         \} \textcolor{keywordflow}{else} \{
+181             sem[0].sem\_op = 0;
+182             semop(semid, sem, 1);
+183         \}
+184         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 1; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 1; i++)\{
+185             borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border}[i] = fld[i][1];
+186             borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border}[i] = fld[i][proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 2];
+187         \}
+188         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 1; j < proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 1; j++)\{
+189             borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border}[j] = fld[1][j];
+190             borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border}[j] = fld[proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 2][j];
+191         \}
+192         \textcolor{keywordflow}{if}(P > 0)\{
+193             iter--;
+194         \}
+195         sem[0].sem\_num = 5;
+196         sem[0].sem\_op = 1;
+197         semop(semid, sem, 1);
+198         \textcolor{keywordflow}{if}(num == 0)\{
+199             sem[0].sem\_op = -fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k};
+200             semop(semid, sem, 1);
+201         \} \textcolor{keywordflow}{else} \{
+202             sem[0].sem\_op = 0;
+203             semop(semid, sem, 1);
+204         \}
+205         \textcolor{keywordflow}{if}(mode)\{
+206             usleep(100000);
+207             system(\textcolor{stringliteral}{"clear"});
+208             \hyperlink{lifeop_8c_a5a4fae3e7116c3fc2eed053fbd3e7d70}{snap}(fld, 0, fldp, proc, semid, num);
+209         \}
+210         sem[0].sem\_num = 2;
+211         sem[0].sem\_op = 1;
+212         sem[1].sem\_num = 1;
+213         sem[1].sem\_op = 0;
+214         semop(semid, sem, 2);
+215         \textcolor{keyword}{struct }\hyperlink{structmsgb}{msgb} msg;
+216         \textcolor{keywordflow}{if}(msgrcv(msgid[num], &msg, \hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83}{DATA\_SIZE} * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 0, IPC\_NOWAIT) == -1)\{
+217             sem[0].sem\_num = 2;
+218             sem[0].sem\_op = 1;
+219             semop(semid, sem, 1);
+220             \textcolor{keywordflow}{if}(num == 0)\{
+221             sem[0].sem\_op = -2 * fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k};
+222             semop(semid, sem, 1);
+223             \}
+224             \textcolor{keywordflow}{continue};
+225         \}
+226         sem[0].sem\_num = 2;
+227         sem[0].sem\_op = 1;
+228         semop(semid, sem, 1);
+229         \textcolor{keywordflow}{if}(num == 0)\{
+230             sem[0].sem\_op = -2 * fldp->\hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k};
+231             semop(semid, sem, 1);
+232         \}
+233         \textcolor{keywordtype}{int} x, y;
+234         \textcolor{keywordtype}{int} ok = 0;
+235         \textcolor{keywordflow}{switch}(msg.msgtype)\{
+236         \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff}{LF\_ADD}:
+237             x = msg.data[0];
+238             y = msg.data[1];
+239             \textcolor{keywordflow}{if}(\hyperlink{lifefld_8c_a33d22361defb8f49f54304fe19240abe}{checkhit}(&x, &y, fldp, proc))\{
+240                 fld[x][y] = 1;
+241                 ok = 1;
+242                 \textcolor{keywordflow}{if}(y == 1)\{
+243                     borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border}[x] = 1;
+244                 \}
+245                 \textcolor{keywordflow}{if}(y == proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 2)\{
+246                     borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border}[x] = 1;
+247                 \}
+248                 \textcolor{keywordflow}{if}(x == 1)\{
+249                     borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border}[y] = 1;
+250                 \}
+251                 \textcolor{keywordflow}{if}(x == proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 2)\{
+252                     borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border}[y] = 1;
+253                 \}
+254             \}
+255             \textcolor{keywordflow}{break};
+256         \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9}{LF\_CLR}:
+257             \hyperlink{lifeop_8c_a3f37c599f55a2b67ff121e6c37df7630}{clearfld}(fld, borders, proc);
+258             \textcolor{keywordflow}{break};
+259         \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e}{LF\_START}:
+260             \textcolor{keywordflow}{if}(num == 0)\{
+261                 printf(\textcolor{stringliteral}{"ОШИБКА: Игра уже запущена.\(\backslash\)n"});
+262                 fflush(stdout);
+263             \}
+264             ok = 0;
+265             \textcolor{keywordflow}{break};
+266         \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38}{LF\_STOP}:
+267             iter = 0;
+268             \textcolor{keywordflow}{if}(num == 0)\{
+269                 printf(\textcolor{stringliteral}{"Выполнено.\(\backslash\)n"});
+270                 fflush(stdout);
+271             \}
+272             \textcolor{keywordflow}{break};
+273         \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b}{LF\_SNAP}:
+274             \hyperlink{lifeop_8c_a5a4fae3e7116c3fc2eed053fbd3e7d70}{snap}(fld, msg.data[0], fldp, proc, semid, num);
+275             \textcolor{keywordflow}{break};
+276         \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{LF\_QUIT}:
+277             \textcolor{keywordflow}{if}(num == 0)\{
+278                 printf(\textcolor{stringliteral}{"Выполнено.\(\backslash\)n"});
+279                 fflush(stdout);
+280             \}
+281             \textcolor{keywordflow}{return} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{LF\_QUIT};
+282             \textcolor{keywordflow}{break};
+283         \textcolor{keywordflow}{default}:
+284             \textcolor{keywordflow}{break};
+285         \}
+286         \textcolor{keywordflow}{if}(ok)\{
+287             printf(\textcolor{stringliteral}{"Выполнено.\(\backslash\)n"});
+288             fflush(stdout);
+289         \}
+290     \}
+291     \textcolor{keywordflow}{return} 0;
+292 \}
+\end{DoxyCode}

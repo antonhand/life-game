@@ -1,0 +1,184 @@
+\hypertarget{lifefld_8h}{}\section{Файл /home/anton/\+Dropbox/Программирование/Жизнь/lifefld.h}
+\label{lifefld_8h}\index{/home/anton/\+Dropbox/Программирование/Жизнь/lifefld.\+h@{/home/anton/\+Dropbox/Программирование/Жизнь/lifefld.\+h}}
+
+
+Заголовочный файл структур и функций для работы с полем  
+
+
+\subsection*{Структуры данных}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structborder}{border}
+\begin{DoxyCompactList}\small\item\em Структура границ участка поля данного процесса \end{DoxyCompactList}\item 
+struct \hyperlink{structproc__param}{proc\+\_\+param}
+\begin{DoxyCompactList}\small\item\em Структура параметров данного процесса \end{DoxyCompactList}\item 
+struct \hyperlink{structfld__param}{fld\+\_\+param}
+\begin{DoxyCompactList}\small\item\em Структура параметров поля \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{lifefld_8h_a32300bb46d9c00fa91aeabb9966f8b35}{coverfld} (int m, int n, int k, int $\ast$procvert, int $\ast$procgor)
+\item 
+int $\ast$$\ast$ \hyperlink{lifefld_8h_af4b0e2749728ae38395e689d7158c4d1}{fldcreate} (struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+void \hyperlink{lifefld_8h_a2ace44c9453b8a3039dc1ca159290af9}{get\+\_\+borders} (struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc, int $\ast$$\ast$shmid)
+\item 
+void \hyperlink{lifefld_8h_a021e16a77a7d22b764f04ca286de10bd}{rmfld} (int $\ast$$\ast$fld, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+void \hyperlink{lifefld_8h_a7a0276abe2b2c8b8b4820e3664340739}{rmborder} (struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+int \hyperlink{lifefld_8h_a33d22361defb8f49f54304fe19240abe}{checkhit} (int $\ast$x, int $\ast$y, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\end{DoxyCompactItemize}
+
+
+\subsection{Подробное описание}
+Заголовочный файл структур и функций для работы с полем 
+
+Данный файл содержит в себе определения структур и функций, необходимых для разделения поля между процессами, создания и удаления участков поля данных процессов. 
+
+\subsection{Функции}
+\index{lifefld.\+h@{lifefld.\+h}!checkhit@{checkhit}}
+\index{checkhit@{checkhit}!lifefld.\+h@{lifefld.\+h}}
+\subsubsection[{\texorpdfstring{checkhit(int $\ast$x, int $\ast$y, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{checkhit(int *x, int *y, struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}int checkhit (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{x, }
+\item[{int $\ast$}]{y, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8h_a33d22361defb8f49f54304fe19240abe}{}\label{lifefld_8h_a33d22361defb8f49f54304fe19240abe}
+Проверяет, пренадлежит ли клетка с координатами (x, y) участку поля данного процесса. В случае если y равен N\+U\+LL, проверяет, принадлежит ли часть строки с номером x участку поля данного процесса. Приводит х и y к внутренним координатам процесса. 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in,out}  & {\em x} & Номер клетки по вертикали \\
+\hline
+\mbox{\tt in,out}  & {\em y} & Номер клетки по горизонтали \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 155
+
+\index{lifefld.\+h@{lifefld.\+h}!coverfld@{coverfld}}
+\index{coverfld@{coverfld}!lifefld.\+h@{lifefld.\+h}}
+\subsubsection[{\texorpdfstring{coverfld(int m, int n, int k, int $\ast$procvert, int $\ast$procgor)}{coverfld(int m, int n, int k, int *procvert, int *procgor)}}]{\setlength{\rightskip}{0pt plus 5cm}int coverfld (
+\begin{DoxyParamCaption}
+\item[{int}]{m, }
+\item[{int}]{n, }
+\item[{int}]{k, }
+\item[{int $\ast$}]{procvert, }
+\item[{int $\ast$}]{procgor}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8h_a32300bb46d9c00fa91aeabb9966f8b35}{}\label{lifefld_8h_a32300bb46d9c00fa91aeabb9966f8b35}
+Вычисляет оптимальное разбиение поля на квадраты 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em m} & Размер поля по вертикали \\
+\hline
+\mbox{\tt in}  & {\em n} & Размер поля по горизонтали \\
+\hline
+\mbox{\tt in}  & {\em k} & Количество процессов \\
+\hline
+\mbox{\tt out}  & {\em procvert} & Указатель на область памяти, в которую нужно поместить вычисленное количество процессов по вертикали при данном разбиении \\
+\hline
+\mbox{\tt out}  & {\em procgor} & Указатель на область памяти, в которую нужно поместить вычисленное количество процессов по вертикали при данном разбиении \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Сторона квадратов, на которые разбивается поле 
+\end{DoxyReturn}
+
+
+См. определение в файле lifefld.\+c строка 9
+
+\index{lifefld.\+h@{lifefld.\+h}!fldcreate@{fldcreate}}
+\index{fldcreate@{fldcreate}!lifefld.\+h@{lifefld.\+h}}
+\subsubsection[{\texorpdfstring{fldcreate(struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{fldcreate(struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$$\ast$ fldcreate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8h_af4b0e2749728ae38395e689d7158c4d1}{}\label{lifefld_8h_af4b0e2749728ae38395e689d7158c4d1}
+Создаёт участок поля для процесса 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Указатель на поле 
+\end{DoxyReturn}
+
+
+См. определение в файле lifefld.\+c строка 52
+
+\index{lifefld.\+h@{lifefld.\+h}!get\+\_\+borders@{get\+\_\+borders}}
+\index{get\+\_\+borders@{get\+\_\+borders}!lifefld.\+h@{lifefld.\+h}}
+\subsubsection[{\texorpdfstring{get\+\_\+borders(struct border $\ast$borders, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc, int $\ast$$\ast$shmid)}{get_borders(struct border *borders, struct fld_param *fldp, struct proc_param *proc, int **shmid)}}]{\setlength{\rightskip}{0pt plus 5cm}void get\+\_\+borders (
+\begin{DoxyParamCaption}
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc, }
+\item[{int $\ast$$\ast$}]{shmid}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8h_a2ace44c9453b8a3039dc1ca159290af9}{}\label{lifefld_8h_a2ace44c9453b8a3039dc1ca159290af9}
+Заполняет структуру границ поля указателями на разделяемую память 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt out}  & {\em borders} & Указатель на заполняемую структуру границ поля \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 62
+
+\index{lifefld.\+h@{lifefld.\+h}!rmborder@{rmborder}}
+\index{rmborder@{rmborder}!lifefld.\+h@{lifefld.\+h}}
+\subsubsection[{\texorpdfstring{rmborder(struct border $\ast$borders, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{rmborder(struct border *borders, struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}void rmborder (
+\begin{DoxyParamCaption}
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8h_a7a0276abe2b2c8b8b4820e3664340739}{}\label{lifefld_8h_a7a0276abe2b2c8b8b4820e3664340739}
+Открепляет указатели на разделяемую память в структуре границ поля 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt out}  & {\em borders} & Указатель на структуру границ поля \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 121
+
+\index{lifefld.\+h@{lifefld.\+h}!rmfld@{rmfld}}
+\index{rmfld@{rmfld}!lifefld.\+h@{lifefld.\+h}}
+\subsubsection[{\texorpdfstring{rmfld(int $\ast$$\ast$fld, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{rmfld(int **fld, struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}void rmfld (
+\begin{DoxyParamCaption}
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8h_a021e16a77a7d22b764f04ca286de10bd}{}\label{lifefld_8h_a021e16a77a7d22b764f04ca286de10bd}
+Уничтожает участок поля процесса 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 111
+

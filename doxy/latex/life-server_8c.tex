@@ -1,0 +1,246 @@
+\hypertarget{life-server_8c}{}\section{Файл /home/anton/\+Dropbox/Программирование/Жизнь/life-\/server.c}
+\label{life-server_8c}\index{/home/anton/\+Dropbox/Программирование/Жизнь/life-\/server.\+c@{/home/anton/\+Dropbox/Программирование/Жизнь/life-\/server.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$sys/types.\+h$>$}\\*
+{\ttfamily \#include $<$sys/ipc.\+h$>$}\\*
+{\ttfamily \#include $<$sys/shm.\+h$>$}\\*
+{\ttfamily \#include $<$sys/sem.\+h$>$}\\*
+{\ttfamily \#include $<$sys/msg.\+h$>$}\\*
+{\ttfamily \#include $<$sys/wait.\+h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}lifefld.\+h\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}lifeop.\+h\char`\"{}}\\*
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{life-server_8c_a0ddf1224851353fc92bfbff6f499fa97}{main} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Функции}
+\index{life-\/server.\+c@{life-\/server.\+c}!main@{main}}
+\index{main@{main}!life-\/server.\+c@{life-\/server.\+c}}
+\subsubsection[{\texorpdfstring{main(int argc, char $\ast$argv[])}{main(int argc, char *argv[])}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}\hypertarget{life-server_8c_a0ddf1224851353fc92bfbff6f499fa97}{}\label{life-server_8c_a0ddf1224851353fc92bfbff6f499fa97}
+\begin{DoxyAuthor}{Автор}
+Ханджян Антон Аркадьевич 205 группа ВМК МГУ 
+\end{DoxyAuthor}
+
+
+См. определение в файле life-\/server.\+c строка 22
+
+
+\begin{DoxyCode}
+23 \{
+24     \textcolor{comment}{//mkfifo("stoc", RIGHTS);}
+25     mkfifo(\textcolor{stringliteral}{"ctos"}, \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS});
+26    \textcolor{comment}{/* int fd1 = open("stoc", O\_WRONLY, 0);}
+27 \textcolor{comment}{    dup2(fd1, 1);}
+28 \textcolor{comment}{    close(fd1);*/}
+29     \textcolor{keywordtype}{int} fd1 = open(\textcolor{stringliteral}{"ctos"}, O\_RDONLY, 0);
+30     dup2(fd1, 0);
+31     close(fd1);
+32     \textcolor{keywordtype}{int} m = atoi(argv[1]);
+33     \textcolor{keywordtype}{int} n = atoi(argv[2]);
+34     \textcolor{keywordtype}{int} k = atoi(argv[3]);
+35     \textcolor{keywordflow}{if}(m < 1)\{
+36         printf(\textcolor{stringliteral}{"ОШИБКА: Слишком маленькая ширина поля, минимальная допустимая ширина поля - 1.\(\backslash\)n"});
+37         fflush(stdout);
+38         m = 1;
+39     \}
+40     \textcolor{keywordflow}{if}(n < 1)\{
+41         printf(\textcolor{stringliteral}{"ОШИБКА: Слишком маленькая длина поля, минимальная допустимая длина поля - 1.\(\backslash\)n"});
+42         fflush(stdout);
+43         n = 1;
+44     \}
+45     printf(\textcolor{stringliteral}{"Установлены размеры поля: %dx%d\(\backslash\)n"}, m, n);
+46     fflush(stdout);
+47     \textcolor{keywordflow}{if}(k > m * n)\{
+48         k = m * n;
+49         printf(\textcolor{stringliteral}{"ОШИБКА: Слишком много процессов, максимальное допустимое количество процессов - %d.\(\backslash\)n"}, k);
+50         fflush(stdout);
+51     \}
+52     printf(\textcolor{stringliteral}{"Будет создано %d процессов\(\backslash\)n"}, k);
+53     fflush(stdout);
+54     \textcolor{keyword}{struct }\hyperlink{structfld__param}{fld\_param} fldp;
+55     fldp.\hyperlink{structfld__param_a742204794ea328ba293fe59cec79b990}{m} = \hyperlink{structfld__param_a742204794ea328ba293fe59cec79b990}{m};
+56     fldp.n = \hyperlink{structfld__param_a76f11d9a0a47b94f72c2d0e77fb32240}{n};
+57     fldp.k = \hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k};
+58     fldp.sqrside = \hyperlink{lifefld_8c_a32300bb46d9c00fa91aeabb9966f8b35}{coverfld}(m, n, k, &fldp.proc\_vert, &fldp.proc\_gor);
+59     printf(\textcolor{stringliteral}{"%d %d\(\backslash\)n"}, fldp.proc\_vert, fldp.proc\_gor);
+60     \textcolor{keywordtype}{int} *shmid[2];
+61     shmid[0] = malloc(2 * (fldp.proc\_gor - 1) * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+62     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < 2 * (fldp.proc\_gor - 1); i++)\{
+63         shmid[0][i] = shmget(IPC\_PRIVATE, (m + 2) * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS} | IPC\_CREAT);
+64         \textcolor{keywordtype}{int} *tmp\_at = shmat(shmid[0][i], NULL, 0);
+65         \textcolor{keywordtype}{int} ert = 0;
+66         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < m + 2; j++)\{
+67             \textcolor{keywordflow}{if}(!(j % fldp.sqrside))
+68                 ert += 10;
+69             tmp\_at[j] = 0;
+70         \}
+71         shmdt(tmp\_at);
+72     \}
+73     shmid[1] = malloc(2 * (fldp.proc\_vert - 1) * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+74     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < 2 * (fldp.proc\_vert - 1); i++)\{
+75         shmid[1][i] = shmget(IPC\_PRIVATE, (n + 2) * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS} | IPC\_CREAT);
+76         \textcolor{keywordtype}{int} *tmp\_at = shmat(shmid[1][i], NULL, 0);
+77         \textcolor{keywordtype}{int} ert = 0;
+78         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < n + 2; j++)\{
+79             \textcolor{keywordflow}{if}(!(j % fldp.sqrside))
+80                 ert += 1000;
+81             tmp\_at[j] = 0;
+82         \}
+83         shmdt(tmp\_at);
+84     \}
+85     \textcolor{keywordtype}{int} *msgid = malloc(fldp.proc\_vert * fldp.proc\_gor * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+86     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < \hyperlink{structfld__param_ab66ed8e0098c0a86b458672a55a9cca9}{k}; i++)\{
+87         msgid[i] = msgget(IPC\_PRIVATE, IPC\_CREAT | \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS});
+88     \}
+89     \textcolor{keywordtype}{int} semid = semget(IPC\_PRIVATE, \hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8}{NSEM}, IPC\_CREAT | \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS});
+90     \textcolor{keywordtype}{int} num = 0;
+91     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < fldp.proc\_vert; i++)\{
+92         \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} j = 0; j < fldp.proc\_gor; j++)\{
+93             \textcolor{keyword}{struct }\hyperlink{structproc__param}{proc\_param} proc;
+94             proc.\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} = i;
+95             proc.num\_gor = j;
+96             proc.vert\_side = fldp.sqrside + 2;
+97             proc.gor\_side = fldp.sqrside + 2;
+98             \textcolor{keywordflow}{if} (i == fldp.proc\_vert - 1)\{
+99                 proc.vert\_side = m - fldp.sqrside * i + 2;
+100             \}
+101             \textcolor{keywordflow}{if} (j == fldp.proc\_gor - 1)\{
+102                 proc.gor\_side = n - fldp.sqrside * j + 2;
+103             \}
+104             \textcolor{keywordtype}{int} br = 0;
+105             \textcolor{keywordflow}{if}(m >= n && i == fldp.proc\_vert - 1)\{
+106                 \textcolor{keywordflow}{if}(j != fldp.proc\_gor - 1 && i * fldp.proc\_gor + j + 1 == k)\{
+107                     proc.gor\_side = n - j * fldp.sqrside + 2;
+108                     br = 1;
+109                 \}
+110             \}
+111             \textcolor{keywordflow}{if}(n > m && j == fldp.proc\_gor - 1)\{
+112                 \textcolor{keywordflow}{if}(k % fldp.proc\_vert - 1 >= 0 && i == k % fldp.proc\_vert - 1)\{
+113                     proc.vert\_side = m - i * fldp.sqrside + 2;
+114                 \}
+115                 \textcolor{keywordflow}{if}(k % fldp.proc\_vert - 1 >= 0 && i > k % fldp.proc\_vert - 1)\{
+116                     \textcolor{keywordflow}{continue};
+117                 \}
+118             \}
+119             \textcolor{keywordflow}{if}(!fork())\{
+120                 \textcolor{keywordtype}{int} **fld = \hyperlink{lifefld_8c_af4b0e2749728ae38395e689d7158c4d1}{fldcreate}(&fldp, &proc);
+121                 \textcolor{keyword}{struct }\hyperlink{structborder}{border} borders;
+122                 \hyperlink{lifefld_8c_a2ace44c9453b8a3039dc1ca159290af9}{get\_borders}(&borders, &fldp, &proc, shmid);
+123                 \textcolor{keywordtype}{int} work = 1;
+124                 \textcolor{keywordflow}{while}(work)\{
+125                     \textcolor{keyword}{struct }\hyperlink{structmsgb}{msgb} msg;
+126                     msgrcv(msgid[num], &msg, \hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83}{DATA\_SIZE} * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}), 0, 0);
+127                     \textcolor{keywordtype}{int} x, y, ok = 0;
+128                     \textcolor{keywordflow}{if}(num == 0)\{
+129                         ok = 1;
+130                     \}
+131                     \textcolor{keywordflow}{switch}(msg.msgtype)\{
+132                     \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff}{LF\_ADD}:
+133                         x = msg.data[0];
+134                         y = msg.data[1];
+135                         \textcolor{keywordflow}{if}(\hyperlink{lifefld_8c_a33d22361defb8f49f54304fe19240abe}{checkhit}(&x, &y, &fldp, &proc))\{
+136                             ok = 1;
+137                             fld[x][y] = 1;
+138                             \textcolor{keywordflow}{if}(y == 1)\{
+139                                 borders.left\_border[x] = 1;
+140                             \}
+141                             \textcolor{keywordflow}{if}(y == proc.gor\_side - 2)\{
+142                                 borders.right\_border[x] = 1;
+143                             \}
+144                             \textcolor{keywordflow}{if}(x == 1)\{
+145                                 borders.up\_border[y] = 1;
+146                             \}
+147                             \textcolor{keywordflow}{if}(x == proc.vert\_side - 2)\{
+148                                 borders.down\_border[y] = 1;
+149                             \}
+150 
+151                         \} \textcolor{keywordflow}{else} \{
+152                             ok = 0;
+153                         \}
+154                         \textcolor{keywordflow}{break};
+155                     \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9}{LF\_CLR}:
+156                         \hyperlink{lifeop_8c_a3f37c599f55a2b67ff121e6c37df7630}{clearfld}(fld, &borders, &proc);
+157                         \textcolor{keywordflow}{break};
+158                     \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e}{LF\_START}:
+159                         x = msg.data[0];
+160                         \textcolor{keywordtype}{int} mode = msg.data[1];
+161                         ok = 0;
+162                         \textcolor{keywordflow}{if}(num == 0)\{
+163                             printf(\textcolor{stringliteral}{"Выполнено.\(\backslash\)n"});
+164                             fflush(stdout);
+165                         \}
+166                         \textcolor{keywordflow}{if}(\hyperlink{lifeop_8c_a67be292e3bb47697a2ce1391363c5298}{start}(x, mode, fld, &borders, &fldp, &proc, semid, num, msgid) == 
+      \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{LF\_QUIT})\{
+167                             work = 0;
+168                         \}
+169                         \textcolor{keywordflow}{break};
+170                     \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38}{LF\_STOP}:
+171 
+172                         \textcolor{keywordflow}{if}(num == 0)\{
+173                             printf(\textcolor{stringliteral}{"ОШИБКА: игра не была запущена.\(\backslash\)n"});
+174                             fflush(stdout);
+175                         \}
+176                         ok = 0;
+177                         \textcolor{keywordflow}{break};
+178                     \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b}{LF\_SNAP}:
+179                         \hyperlink{lifeop_8c_a5a4fae3e7116c3fc2eed053fbd3e7d70}{snap}(fld, msg.data[0], &fldp, &proc, semid, num);
+180                         \textcolor{keywordflow}{break};
+181                     \textcolor{keywordflow}{case} \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{LF\_QUIT}:
+182                         work = 0;
+183                         \textcolor{keywordflow}{break};
+184                     \textcolor{keywordflow}{default}:
+185                         \textcolor{keywordflow}{break};
+186                     \}
+187                     \textcolor{keywordflow}{if}(ok)\{
+188                         printf(\textcolor{stringliteral}{"Выполнено.\(\backslash\)n"});
+189                         fflush(stdout);
+190                     \}
+191                 \}
+192                 \hyperlink{lifefld_8c_a021e16a77a7d22b764f04ca286de10bd}{rmfld}(fld, &fldp, &proc);
+193                 \hyperlink{lifefld_8c_a7a0276abe2b2c8b8b4820e3664340739}{rmborder}(&borders, &fldp, &proc);
+194                 exit(0);
+195             \}
+196             num++;
+197             \textcolor{keywordflow}{if}(br)\{
+198                 \textcolor{keywordflow}{break};
+199             \}
+200         \}
+201     \}
+202     \textcolor{keywordtype}{int} work = 1;
+203     \textcolor{keywordflow}{while}(work)\{
+204         \textcolor{keywordtype}{char} cmd[\hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{CMDSIZE}];
+205         fgets(cmd, \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{CMDSIZE}, stdin);
+206         \textcolor{keywordflow}{if}(\hyperlink{lifeop_8c_aae0b7e9569a84f89761ab2f642a8a459}{processcmd}(cmd, &fldp, msgid, semid) == \hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{LF\_QUIT})\{
+207             \textcolor{keywordflow}{break};
+208         \}
+209     \}
+210     \textcolor{keywordflow}{while}(wait(NULL) > 0);
+211     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < 2 * (fldp.proc\_vert); i++)\{
+212         shmctl(shmid[0][i], IPC\_RMID, NULL);
+213     \}
+214     free(shmid[0]);
+215     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < 2 * (fldp.proc\_gor - 1); i++)\{
+216         shmctl(shmid[1][i], IPC\_RMID, NULL);
+217     \}
+218     free(shmid[1]);
+219     semctl(semid, \hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8}{NSEM}, IPC\_RMID, NULL);
+220     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < k; i++)\{
+221         msgctl(msgid[i], IPC\_RMID, NULL);
+222     \}
+223     free(msgid);
+224     \textcolor{keywordflow}{return} 0;
+225 \}
+\end{DoxyCode}

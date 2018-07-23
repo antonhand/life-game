@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structborder">
+<title>border struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="lifefld_8h">&lt;lifefld.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Поля данных</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * left_neighbor<para><emphasis>Граница поля соседа слева</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * left_border<para><emphasis>Граница поля данного процесса слева</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * right_neighbor<para><emphasis>Граница поля соседа справа</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * right_border<para><emphasis>Граница поля данного процесса справа</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * up_neighbor<para><emphasis>Граница поля соседа сверху</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * up_border<para><emphasis>Граница поля данного процесса сверху</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * down_neighbor<para><emphasis>Граница поля соседа снизу</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int * down_border<para><emphasis>Граница поля данного процесса снизу</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Структура границ участка поля данного процесса </para>
+    </simplesect>
+        <simplesect>
+            <title>Подробное описание</title>
+
+<para>В данной структуре хранятся указатели на разделяемую память </para>
+                <para>Definition at line 14 of file lifefld.h</para>
+                <para>The Documentation for this struct was generated from the following file: </para>
+                <para><itemizedlist><listitem><para>lifefld.h</para></listitem></itemizedlist></para>
+        </simplesect>
+        <section>
+            <title>Поля</title>
+        </section>
+</section>

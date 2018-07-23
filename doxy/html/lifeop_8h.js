@@ -1,0 +1,25 @@
+var lifeop_8h =
+[
+    [ "msgb", "structmsgb.html", "structmsgb" ],
+    [ "RIGHTS", "lifeop_8h.html#adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2", null ],
+    [ "NSEM", "lifeop_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8", null ],
+    [ "CMDSIZE", "lifeop_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc", null ],
+    [ "DATA_SIZE", "lifeop_8h.html#adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83", null ],
+    [ "LF_ER_CMD", "lifeop_8h.html#a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7", null ],
+    [ "LF_ER_OUTOFFLD", "lifeop_8h.html#a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805", null ],
+    [ "LF_ER_WRNUMARG", "lifeop_8h.html#a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f", null ],
+    [ "LF_ER_BADARG", "lifeop_8h.html#a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6", null ],
+    [ "LF_ADD", "lifeop_8h.html#abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff", null ],
+    [ "LF_CLR", "lifeop_8h.html#abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9", null ],
+    [ "LF_START", "lifeop_8h.html#abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e", null ],
+    [ "LF_STOP", "lifeop_8h.html#abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38", null ],
+    [ "LF_SNAP", "lifeop_8h.html#abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b", null ],
+    [ "LF_QUIT", "lifeop_8h.html#abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9", null ],
+    [ "LF_MINNEED", "lifeop_8h.html#adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14", null ],
+    [ "LF_MAXNEED", "lifeop_8h.html#adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f", null ],
+    [ "LF_BORN", "lifeop_8h.html#adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4", null ],
+    [ "clearfld", "lifeop_8h.html#a3f37c599f55a2b67ff121e6c37df7630", null ],
+    [ "processcmd", "lifeop_8h.html#aae0b7e9569a84f89761ab2f642a8a459", null ],
+    [ "snap", "lifeop_8h.html#a5a4fae3e7116c3fc2eed053fbd3e7d70", null ],
+    [ "start", "lifeop_8h.html#a67be292e3bb47697a2ce1391363c5298", null ]
+];

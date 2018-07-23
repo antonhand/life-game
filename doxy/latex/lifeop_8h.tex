@@ -1,0 +1,285 @@
+\hypertarget{lifeop_8h}{}\section{Файл /home/anton/\+Dropbox/Программирование/Жизнь/lifeop.h}
+\label{lifeop_8h}\index{/home/anton/\+Dropbox/Программирование/Жизнь/lifeop.\+h@{/home/anton/\+Dropbox/Программирование/Жизнь/lifeop.\+h}}
+
+
+Заголовочный файл функций обработки команд  
+
+
+{\ttfamily \#include \char`\"{}lifefld.\+h\char`\"{}}\\*
+\subsection*{Структуры данных}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structmsgb}{msgb}
+\begin{DoxyCompactList}\small\item\em Буфер сообщения \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Перечисления}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2}{R\+I\+G\+H\+TS} = 0666, 
+\hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8}{N\+S\+EM} = 6, 
+\hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc}{C\+M\+D\+S\+I\+ZE} = 32, 
+\hyperlink{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83}{D\+A\+T\+A\+\_\+\+S\+I\+ZE} = 2
+ \}
+\item 
+enum \{ \hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7}{L\+F\+\_\+\+E\+R\+\_\+\+C\+MD} = -\/1, 
+\hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805}{L\+F\+\_\+\+E\+R\+\_\+\+O\+U\+T\+O\+F\+F\+LD} = -\/2, 
+\hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f}{L\+F\+\_\+\+E\+R\+\_\+\+W\+R\+N\+U\+M\+A\+RG} = -\/3, 
+\hyperlink{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6}{L\+F\+\_\+\+E\+R\+\_\+\+B\+A\+D\+A\+RG} = -\/4
+ \}\begin{DoxyCompactList}\small\item\em Набор возможных ошибок \end{DoxyCompactList}
+\item 
+enum \{ \\*
+\hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff}{L\+F\+\_\+\+A\+DD} = 1, 
+\hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9}{L\+F\+\_\+\+C\+LR} = 2, 
+\hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e}{L\+F\+\_\+\+S\+T\+A\+RT} = 3, 
+\hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38}{L\+F\+\_\+\+S\+T\+OP} = 4, 
+\\*
+\hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b}{L\+F\+\_\+\+S\+N\+AP} = 5, 
+\hyperlink{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{L\+F\+\_\+\+Q\+U\+IT} = 6
+ \}\begin{DoxyCompactList}\small\item\em Типы команд \end{DoxyCompactList}
+\item 
+enum \{ \hyperlink{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14}{L\+F\+\_\+\+M\+I\+N\+N\+E\+ED} = 2, 
+\hyperlink{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f}{L\+F\+\_\+\+M\+A\+X\+N\+E\+ED} = 3, 
+\hyperlink{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4}{L\+F\+\_\+\+B\+O\+RN} = 3
+ \}\begin{DoxyCompactList}\small\item\em Параметры игры \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{lifeop_8h_aae0b7e9569a84f89761ab2f642a8a459}{processcmd} (char $\ast$cmd, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, int $\ast$msgid, int semid)
+\item 
+void \hyperlink{lifeop_8h_a3f37c599f55a2b67ff121e6c37df7630}{clearfld} (int $\ast$$\ast$fld, struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+int \hyperlink{lifeop_8h_a67be292e3bb47697a2ce1391363c5298}{start} (int P, int mode, int $\ast$$\ast$fld, struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc, int semid, int num, int $\ast$msgid)
+\item 
+void \hyperlink{lifeop_8h_a5a4fae3e7116c3fc2eed053fbd3e7d70}{snap} (int $\ast$$\ast$fld, int mode, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc, int semid, int num)
+\end{DoxyCompactItemize}
+
+
+\subsection{Подробное описание}
+Заголовочный файл функций обработки команд 
+
+Данный файл содержит в себе определения функций, необходимых для обработки различных команд, поступающих от клиента, и для процесса моделирования игры 
+
+\subsection{Перечисления}
+\subsubsection[{\texorpdfstring{anonymous enum}{anonymous enum}}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\hypertarget{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7}{}\label{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7}
+\begin{Desc}
+\item[Элементы перечислений]\par
+\begin{description}
+\index{R\+I\+G\+H\+TS@{R\+I\+G\+H\+TS}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!R\+I\+G\+H\+TS@{R\+I\+G\+H\+TS}}\item[{\em 
+R\+I\+G\+H\+TS\hypertarget{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2}{}\label{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7afa588afcf6a1d45e5503f8fb1f189df2}
+}]Права доступа \index{N\+S\+EM@{N\+S\+EM}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!N\+S\+EM@{N\+S\+EM}}\item[{\em 
+N\+S\+EM\hypertarget{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8}{}\label{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a0385140bd6852dca24e9062841fd3bd8}
+}]Количество семафоров \index{C\+M\+D\+S\+I\+ZE@{C\+M\+D\+S\+I\+ZE}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!C\+M\+D\+S\+I\+ZE@{C\+M\+D\+S\+I\+ZE}}\item[{\em 
+C\+M\+D\+S\+I\+ZE\hypertarget{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc}{}\label{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a82d13d61b41ebfaa72523ab683e418bc}
+}]Максимальная длина команды \index{D\+A\+T\+A\+\_\+\+S\+I\+ZE@{D\+A\+T\+A\+\_\+\+S\+I\+ZE}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!D\+A\+T\+A\+\_\+\+S\+I\+ZE@{D\+A\+T\+A\+\_\+\+S\+I\+ZE}}\item[{\em 
+D\+A\+T\+A\+\_\+\+S\+I\+ZE\hypertarget{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83}{}\label{lifeop_8h_adf764cbdea00d65edcd07bb9953ad2b7a7371e4160efe633ac7bbef1ce940ec83}
+}]Длина тела сообщения в очереди сообщений \end{description}
+\end{Desc}
+
+
+См. определение в файле lifeop.\+h строка 12
+
+\subsubsection[{\texorpdfstring{anonymous enum}{anonymous enum}}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\hypertarget{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5}{}\label{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5}
+
+
+Набор возможных ошибок 
+
+\begin{Desc}
+\item[Элементы перечислений]\par
+\begin{description}
+\index{L\+F\+\_\+\+E\+R\+\_\+\+C\+MD@{L\+F\+\_\+\+E\+R\+\_\+\+C\+MD}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+E\+R\+\_\+\+C\+MD@{L\+F\+\_\+\+E\+R\+\_\+\+C\+MD}}\item[{\em 
+L\+F\+\_\+\+E\+R\+\_\+\+C\+MD\hypertarget{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7}{}\label{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a613c73006741c1e8ba9abcab6fcaf1b7}
+}]Команда не найдена \index{L\+F\+\_\+\+E\+R\+\_\+\+O\+U\+T\+O\+F\+F\+LD@{L\+F\+\_\+\+E\+R\+\_\+\+O\+U\+T\+O\+F\+F\+LD}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+E\+R\+\_\+\+O\+U\+T\+O\+F\+F\+LD@{L\+F\+\_\+\+E\+R\+\_\+\+O\+U\+T\+O\+F\+F\+LD}}\item[{\em 
+L\+F\+\_\+\+E\+R\+\_\+\+O\+U\+T\+O\+F\+F\+LD\hypertarget{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805}{}\label{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5ae6c28a3b30ae15f70d7d1a2144713805}
+}]Заданные координаты оказались за пределами поля \index{L\+F\+\_\+\+E\+R\+\_\+\+W\+R\+N\+U\+M\+A\+RG@{L\+F\+\_\+\+E\+R\+\_\+\+W\+R\+N\+U\+M\+A\+RG}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+E\+R\+\_\+\+W\+R\+N\+U\+M\+A\+RG@{L\+F\+\_\+\+E\+R\+\_\+\+W\+R\+N\+U\+M\+A\+RG}}\item[{\em 
+L\+F\+\_\+\+E\+R\+\_\+\+W\+R\+N\+U\+M\+A\+RG\hypertarget{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f}{}\label{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5a22a42f0e3e245de05645b09a5f58094f}
+}]Неверное количество аргументов операции \index{L\+F\+\_\+\+E\+R\+\_\+\+B\+A\+D\+A\+RG@{L\+F\+\_\+\+E\+R\+\_\+\+B\+A\+D\+A\+RG}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+E\+R\+\_\+\+B\+A\+D\+A\+RG@{L\+F\+\_\+\+E\+R\+\_\+\+B\+A\+D\+A\+RG}}\item[{\em 
+L\+F\+\_\+\+E\+R\+\_\+\+B\+A\+D\+A\+RG\hypertarget{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6}{}\label{lifeop_8h_a99fb83031ce9923c84392b4e92f956b5aefe82a392240d51fbb7f072ea8a186f6}
+}]Недопустимые аргументы операции \end{description}
+\end{Desc}
+
+
+См. определение в файле lifeop.\+h строка 21
+
+\subsubsection[{\texorpdfstring{anonymous enum}{anonymous enum}}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04}
+
+
+Типы команд 
+
+\begin{Desc}
+\item[Элементы перечислений]\par
+\begin{description}
+\index{L\+F\+\_\+\+A\+DD@{L\+F\+\_\+\+A\+DD}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+A\+DD@{L\+F\+\_\+\+A\+DD}}\item[{\em 
+L\+F\+\_\+\+A\+DD\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3b9930fe73fc523417baa4bb2e7986ff}
+}]Добавить клетку \index{L\+F\+\_\+\+C\+LR@{L\+F\+\_\+\+C\+LR}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+C\+LR@{L\+F\+\_\+\+C\+LR}}\item[{\em 
+L\+F\+\_\+\+C\+LR\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a5a7c518bbf5563068423ad41f2c1c0a9}
+}]Очистить поле \index{L\+F\+\_\+\+S\+T\+A\+RT@{L\+F\+\_\+\+S\+T\+A\+RT}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+S\+T\+A\+RT@{L\+F\+\_\+\+S\+T\+A\+RT}}\item[{\em 
+L\+F\+\_\+\+S\+T\+A\+RT\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a3bec17b3914ed04bcaed9a1b52fcda5e}
+}]Начать моделирование \index{L\+F\+\_\+\+S\+T\+OP@{L\+F\+\_\+\+S\+T\+OP}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+S\+T\+OP@{L\+F\+\_\+\+S\+T\+OP}}\item[{\em 
+L\+F\+\_\+\+S\+T\+OP\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a4e2071e46b25d5073e4af7f2b215ba38}
+}]Остановить моделирование \index{L\+F\+\_\+\+S\+N\+AP@{L\+F\+\_\+\+S\+N\+AP}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+S\+N\+AP@{L\+F\+\_\+\+S\+N\+AP}}\item[{\em 
+L\+F\+\_\+\+S\+N\+AP\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a20a14774c17b65f5eb7d0fb44488397b}
+}]Показать состояние поля \index{L\+F\+\_\+\+Q\+U\+IT@{L\+F\+\_\+\+Q\+U\+IT}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+Q\+U\+IT@{L\+F\+\_\+\+Q\+U\+IT}}\item[{\em 
+L\+F\+\_\+\+Q\+U\+IT\hypertarget{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}{}\label{lifeop_8h_abc6126af1d45847bc59afa0aa3216b04a1f3f62ed200f104926f943260f8d79e9}
+}]Завершить выполнение программы \end{description}
+\end{Desc}
+
+
+См. определение в файле lifeop.\+h строка 33
+
+\subsubsection[{\texorpdfstring{anonymous enum}{anonymous enum}}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\hypertarget{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06c}{}\label{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06c}
+
+
+Параметры игры 
+
+\begin{Desc}
+\item[Элементы перечислений]\par
+\begin{description}
+\index{L\+F\+\_\+\+M\+I\+N\+N\+E\+ED@{L\+F\+\_\+\+M\+I\+N\+N\+E\+ED}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+M\+I\+N\+N\+E\+ED@{L\+F\+\_\+\+M\+I\+N\+N\+E\+ED}}\item[{\em 
+L\+F\+\_\+\+M\+I\+N\+N\+E\+ED\hypertarget{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14}{}\label{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06caca139b3fe330ee1a5b9ed109ed03da14}
+}]Минимальное необходимое количество соседей для продолжения жизни \index{L\+F\+\_\+\+M\+A\+X\+N\+E\+ED@{L\+F\+\_\+\+M\+A\+X\+N\+E\+ED}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+M\+A\+X\+N\+E\+ED@{L\+F\+\_\+\+M\+A\+X\+N\+E\+ED}}\item[{\em 
+L\+F\+\_\+\+M\+A\+X\+N\+E\+ED\hypertarget{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f}{}\label{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06cab24dddf9a6fcf446b9ee4a133200e33f}
+}]Максимальное допустимое количество соседей для продолжения жизни \index{L\+F\+\_\+\+B\+O\+RN@{L\+F\+\_\+\+B\+O\+RN}!lifeop.\+h@{lifeop.\+h}}\index{lifeop.\+h@{lifeop.\+h}!L\+F\+\_\+\+B\+O\+RN@{L\+F\+\_\+\+B\+O\+RN}}\item[{\em 
+L\+F\+\_\+\+B\+O\+RN\hypertarget{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4}{}\label{lifeop_8h_adc29c2ff13d900c2f185ee95427fb06ca71b33e5439241c704d17f6928a0fd7c4}
+}]Необходимое количество соседей для появления новой клетки \end{description}
+\end{Desc}
+
+
+См. определение в файле lifeop.\+h строка 44
+
+
+
+\subsection{Функции}
+\index{lifeop.\+h@{lifeop.\+h}!clearfld@{clearfld}}
+\index{clearfld@{clearfld}!lifeop.\+h@{lifeop.\+h}}
+\subsubsection[{\texorpdfstring{clearfld(int $\ast$$\ast$fld, struct border $\ast$borders, struct proc\+\_\+param $\ast$proc)}{clearfld(int **fld, struct border *borders, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}void clearfld (
+\begin{DoxyParamCaption}
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8h_a3f37c599f55a2b67ff121e6c37df7630}{}\label{lifeop_8h_a3f37c599f55a2b67ff121e6c37df7630}
+Очищает участок поля процесса от «живых» клеток 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em borders} & Указатель на структуру с границами участка поля процесса \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifeop.\+c строка 97
+
+\index{lifeop.\+h@{lifeop.\+h}!processcmd@{processcmd}}
+\index{processcmd@{processcmd}!lifeop.\+h@{lifeop.\+h}}
+\subsubsection[{\texorpdfstring{processcmd(char $\ast$cmd, struct fld\+\_\+param $\ast$fldp, int $\ast$msgid, int semid)}{processcmd(char *cmd, struct fld_param *fldp, int *msgid, int semid)}}]{\setlength{\rightskip}{0pt plus 5cm}int processcmd (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{cmd, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{int $\ast$}]{msgid, }
+\item[{int}]{semid}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8h_aae0b7e9569a84f89761ab2f642a8a459}{}\label{lifeop_8h_aae0b7e9569a84f89761ab2f642a8a459}
+Преобразует команду, поступившую в виде строки, и отправляет её рабочим процессам 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em cmd} & Строка с командой \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\mbox{\tt in}  & {\em msgid} & Массив дескрипторов очередей сообщений к процессам \\
+\hline
+\mbox{\tt in}  & {\em semid} & Дескриптор массива семафоров \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+0 в случае успешной обработки, номер ошибки в случае поступления некорректной команды 
+\end{DoxyReturn}
+
+
+См. определение в файле lifeop.\+c строка 16
+
+\index{lifeop.\+h@{lifeop.\+h}!snap@{snap}}
+\index{snap@{snap}!lifeop.\+h@{lifeop.\+h}}
+\subsubsection[{\texorpdfstring{snap(int $\ast$$\ast$fld, int mode, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc, int semid, int num)}{snap(int **fld, int mode, struct fld_param *fldp, struct proc_param *proc, int semid, int num)}}]{\setlength{\rightskip}{0pt plus 5cm}void snap (
+\begin{DoxyParamCaption}
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{int}]{mode, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc, }
+\item[{int}]{semid, }
+\item[{int}]{num}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8h_a5a4fae3e7116c3fc2eed053fbd3e7d70}{}\label{lifeop_8h_a5a4fae3e7116c3fc2eed053fbd3e7d70}
+Выводит на экран текущее состояние поля 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em mode} & Режим отображения \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\mbox{\tt in}  & {\em semid} & Дескриптор массива семафоров \\
+\hline
+\mbox{\tt in}  & {\em num} & Номер процесса\\
+\hline
+\end{DoxyParams}
+Вызывается в случае поступления команды «snapshot»/«состояние» от клиента.
+
+Имеет 2 режима отображения\+: 0 -\/ отображение живых и не живых клеток, 1 -\/ отображение номера отвечающего за каждую клетку процесса. Режим отображения номеров процессов включается добавлением к команде «snapshot»/«состояние» флага «-\/prcs»/«-\/прцс». 
+
+См. определение в файле lifeop.\+c строка 295
+
+\index{lifeop.\+h@{lifeop.\+h}!start@{start}}
+\index{start@{start}!lifeop.\+h@{lifeop.\+h}}
+\subsubsection[{\texorpdfstring{start(int P, int mode, int $\ast$$\ast$fld, struct border $\ast$borders, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc, int semid, int num, int $\ast$msgid)}{start(int P, int mode, int **fld, struct border *borders, struct fld_param *fldp, struct proc_param *proc, int semid, int num, int *msgid)}}]{\setlength{\rightskip}{0pt plus 5cm}int start (
+\begin{DoxyParamCaption}
+\item[{int}]{P, }
+\item[{int}]{mode, }
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc, }
+\item[{int}]{semid, }
+\item[{int}]{num, }
+\item[{int $\ast$}]{msgid}
+\end{DoxyParamCaption}
+)}\hypertarget{lifeop_8h_a67be292e3bb47697a2ce1391363c5298}{}\label{lifeop_8h_a67be292e3bb47697a2ce1391363c5298}
+Запускает и производит процесс моделирования игры 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em P} & Номер поколения, до которого производить моделирование \\
+\hline
+\mbox{\tt in}  & {\em mode} & Режим запуска \\
+\hline
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em borders} & Указатель на структуру с границами участка поля процесса \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\mbox{\tt in}  & {\em semid} & Дескриптор массива семафоров \\
+\hline
+\mbox{\tt in}  & {\em num} & Номер процесса \\
+\hline
+\mbox{\tt in}  & {\em msgid} & Массив дескрипторов очередей сообщений к процессам \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+0 в случае успешной обработки, L\+F\+\_\+\+Q\+U\+IT, в случае получения команды о выходе из программы во время работы функции
+\end{DoxyReturn}
+Вызывается в случае поступления команды «start \{P\}»/«старт \{P\}» от клиента.
+
+В случае, если P $<$ 0 выполняет моделирование до команды остановки либо до команды завершения работы программы.
+
+Имеет 2 режима работы (mode)\+: 0 -\/ скрытый режим (не отображает состояние поля до поступления соответствующей команды) 1 -\/ режим визуализации изменения состояния клеточной поверхности по ходу моделирования (для наглядности при этом процесс моделирования искусственно тормозится). Режим визуализации включается добавлением к команде «start \{P\}»/«старт \{P\}» флага «-\/rt»/«-\/рв».
+
+После моделирования каждого поколения проверяет, не поступила ли новая команда. В случае поступления команды сначала выполняет её, а затем приступает к моделированию следующего поколения. 
+
+См. определение в файле lifeop.\+c строка 110
+

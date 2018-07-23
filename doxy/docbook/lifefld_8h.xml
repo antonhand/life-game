@@ -1,0 +1,143 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="lifefld_8h">
+    <title>lifefld.h File Reference</title>
+        <section>
+            <title> Структуры данных </title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structborder">border</link></para>
+<para><emphasis>Структура границ участка поля данного процесса</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structproc__param">proc_param</link></para>
+<para><emphasis>Структура параметров данного процесса</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>struct <link linkend="structfld__param">fld_param</link></para>
+<para><emphasis>Структура параметров поля</emphasis></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+        <section>
+            <title>Функции</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="lifefld_8h_1a32300bb46d9c00fa91aeabb9966f8b35">coverfld</link> (
+int m, int n, int k, int * procvert, int * procgor)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int ** <link linkend="lifefld_8h_1af4b0e2749728ae38395e689d7158c4d1">fldcreate</link> (
+struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifefld_8h_1a2ace44c9453b8a3039dc1ca159290af9">get_borders</link> (
+struct <link linkend="structborder">border</link> * borders, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc, int ** shmid)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifefld_8h_1a021e16a77a7d22b764f04ca286de10bd">rmfld</link> (
+int ** fld, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>void <link linkend="lifefld_8h_1a7a0276abe2b2c8b8b4820e3664340739">rmborder</link> (
+struct <link linkend="structborder">border</link> * borders, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="lifefld_8h_1a33d22361defb8f49f54304fe19240abe">checkhit</link> (
+int * x, int * y, struct <link linkend="structfld__param">fld_param</link> * fldp, struct <link linkend="structproc__param">proc_param</link> * proc)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Подробное описание</title>
+
+<para>Заголовочный файл структур и функций для работы с полем </para>
+
+<para>Данный файл содержит в себе определения структур и функций, необходимых для разделения поля между процессами, создания и удаления участков поля данных процессов. </para>
+    <para>Definition in file /home/anton/Dropbox/Программирование/Жизнь/lifefld.h</para>
+    </simplesect>
+    <literallayout><computeroutput>
+1 
+7 <emphasis class="preprocessor">#ifndef&#32;LIFEFLD_H_INCLUDED</emphasis>
+8 <emphasis class="preprocessor">#define&#32;LIFEFLD_H_INCLUDED</emphasis>
+9 
+11 
+<link linkend="structborder">14 </link><emphasis class="keyword">struct&#32;</emphasis><link linkend="structborder">border</link>{
+<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">15 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1ad9180674bd187d2d03c1df75cfe09b5c">left_neighbor</link>;&#32;
+<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">16 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1aeeebec46746633e69355c0041c87a6ae">left_border</link>;&#32;&#32;&#32;
+<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">17 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1aba1475f2a488b21361600147af4a88d6">right_neighbor</link>;
+<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">18 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1a52e70a5be2f727a9687e12ef48f7ff3b">right_border</link>;&#32;&#32;
+<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">19 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1a517e3084650ac9f1b2082b166e0396e3">up_neighbor</link>;&#32;&#32;&#32;
+<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">20 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1aa03d07abcb95934a80f3a5216a437e05">up_border</link>;&#32;&#32;&#32;&#32;&#32;
+<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">21 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1af38f8c295590a5b07d90ccf4b246692b">down_neighbor</link>;&#32;
+<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">22 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;*<link linkend="structborder_1a91c057e02d53238e157ee6e67f694177">down_border</link>;&#32;&#32;&#32;
+23 };
+24 
+<link linkend="structproc__param">26 </link><emphasis class="keyword">struct&#32;</emphasis><link linkend="structproc__param">proc_param</link>{
+<link linkend="structproc__param_1a9072610d26440867757053b0511091df">27 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structproc__param_1a9072610d26440867757053b0511091df">num_vert</link>;&#32;&#32;&#32;
+<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">28 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structproc__param_1ab98bd982bcef064d742eaad7405b75fa">num_gor</link>;&#32;&#32;&#32;&#32;
+<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">29 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structproc__param_1aa451c5f2cadd3053a3fb92db509345d2">vert_side</link>;&#32;&#32;
+<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">30 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structproc__param_1aa38bc3a4369ecb19504a1bbeb65c0fd7">gor_side</link>;&#32;&#32;&#32;
+31 };
+32 
+<link linkend="structfld__param">34 </link><emphasis class="keyword">struct&#32;</emphasis><link linkend="structfld__param">fld_param</link>{
+<link linkend="structfld__param_1a742204794ea328ba293fe59cec79b990">35 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structfld__param_1a742204794ea328ba293fe59cec79b990">m</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="structfld__param_1a76f11d9a0a47b94f72c2d0e77fb32240">36 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structfld__param_1a76f11d9a0a47b94f72c2d0e77fb32240">n</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="structfld__param_1ab66ed8e0098c0a86b458672a55a9cca9">37 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structfld__param_1ab66ed8e0098c0a86b458672a55a9cca9">k</link>;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;&#32;
+<link linkend="structfld__param_1a58e5c5695a2e64b7374969806d90191a">38 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structfld__param_1a58e5c5695a2e64b7374969806d90191a">proc_vert</link>;&#32;&#32;
+<link linkend="structfld__param_1accbd2c2ef61b4a1eee1400037bd5a06a">39 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structfld__param_1accbd2c2ef61b4a1eee1400037bd5a06a">proc_gor</link>;&#32;&#32;&#32;
+<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">40 </link>&#32;&#32;&#32;&#32;<emphasis class="keywordtype">int</emphasis>&#32;<link linkend="structfld__param_1a325bd3268e1877cda2a01cc850b02409">sqrside</link>;&#32;&#32;&#32;&#32;
+41 };
+42 
+52 <emphasis class="keywordtype">int</emphasis>
+53 <link linkend="lifefld_8h_1a32300bb46d9c00fa91aeabb9966f8b35">coverfld</link>(<emphasis class="keywordtype">int</emphasis>&#32;m,&#32;<emphasis class="keywordtype">int</emphasis>&#32;n,&#32;<emphasis class="keywordtype">int</emphasis>&#32;k,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*procvert,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*procgor);
+54 
+61 <emphasis class="keywordtype">int</emphasis>&#32;**
+62 <link linkend="lifefld_8h_1af4b0e2749728ae38395e689d7158c4d1">fldcreate</link>(<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc);
+63 
+70 <emphasis class="keywordtype">void</emphasis>
+71 <link linkend="lifefld_8h_1a2ace44c9453b8a3039dc1ca159290af9">get_borders</link>(<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structborder">border</link>&#32;*borders,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc,&#32;<emphasis class="keywordtype">int</emphasis>&#32;**shmid);
+72 
+79 <emphasis class="keywordtype">void</emphasis>
+80 <link linkend="lifefld_8h_1a021e16a77a7d22b764f04ca286de10bd">rmfld</link>(<emphasis class="keywordtype">int</emphasis>&#32;**fld,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc);
+81 
+88 <emphasis class="keywordtype">void</emphasis>
+89 <link linkend="lifefld_8h_1a7a0276abe2b2c8b8b4820e3664340739">rmborder</link>(<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structborder">border</link>&#32;*borders,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc);
+90 
+99 <emphasis class="keywordtype">int</emphasis>
+100 <link linkend="lifefld_8h_1a33d22361defb8f49f54304fe19240abe">checkhit</link>(<emphasis class="keywordtype">int</emphasis>&#32;*x,&#32;<emphasis class="keywordtype">int</emphasis>&#32;*y,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structfld__param">fld_param</link>&#32;*fldp,&#32;<emphasis class="keyword">struct</emphasis>&#32;<link linkend="structproc__param">proc_param</link>&#32;*proc);
+101 
+102 <emphasis class="preprocessor">#endif&#32;//&#32;LIFEFLD_H_INCLUDED</emphasis>
+    </computeroutput></literallayout>
+</section>

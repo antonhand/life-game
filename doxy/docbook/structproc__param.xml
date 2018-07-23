@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structproc__param">
+<title>proc_param struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="lifefld_8h">&lt;lifefld.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Поля данных</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int num_vert<para><emphasis>Номер процесса по вертикали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int num_gor<para><emphasis>Номер процесса по горизонтали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int vert_side<para><emphasis>Размер участка поля данного процесса по вертикали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int gor_side<para><emphasis>Размер участка поля данного процесса по горизонтали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Структура параметров данного процесса </para>
+    </simplesect>
+        <section>
+            <title>Поля</title>
+        </section>
+</section>

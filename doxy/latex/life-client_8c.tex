@@ -1,0 +1,94 @@
+\hypertarget{life-client_8c}{}\section{Файл /home/anton/\+Dropbox/Программирование/Жизнь/life-\/client.c}
+\label{life-client_8c}\index{/home/anton/\+Dropbox/Программирование/Жизнь/life-\/client.\+c@{/home/anton/\+Dropbox/Программирование/Жизнь/life-\/client.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$fcntl.\+h$>$}\\*
+{\ttfamily \#include $<$string.\+h$>$}\\*
+{\ttfamily \#include $<$sys/wait.\+h$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
+\subsection*{Перечисления}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{R\+I\+G\+H\+TS} = 0666, 
+\hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{C\+M\+D\+S\+I\+ZE} = 32
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{life-client_8c_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\end{DoxyCompactItemize}
+
+
+\subsection{Перечисления}
+\subsubsection[{\texorpdfstring{anonymous enum}{anonymous enum}}]{\setlength{\rightskip}{0pt plus 5cm}anonymous enum}\hypertarget{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55b}{}\label{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55b}
+\begin{Desc}
+\item[Элементы перечислений]\par
+\begin{description}
+\index{R\+I\+G\+H\+TS@{R\+I\+G\+H\+TS}!life-\/client.\+c@{life-\/client.\+c}}\index{life-\/client.\+c@{life-\/client.\+c}!R\+I\+G\+H\+TS@{R\+I\+G\+H\+TS}}\item[{\em 
+R\+I\+G\+H\+TS\hypertarget{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{}\label{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}
+}]\index{C\+M\+D\+S\+I\+ZE@{C\+M\+D\+S\+I\+ZE}!life-\/client.\+c@{life-\/client.\+c}}\index{life-\/client.\+c@{life-\/client.\+c}!C\+M\+D\+S\+I\+ZE@{C\+M\+D\+S\+I\+ZE}}\item[{\em 
+C\+M\+D\+S\+I\+ZE\hypertarget{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{}\label{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}
+}]\end{description}
+\end{Desc}
+
+
+См. определение в файле life-\/client.\+c строка 9
+
+
+\begin{DoxyCode}
+9      \{
+10     \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS} = 0666,
+11     \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{CMDSIZE} = 32
+12 \};
+\end{DoxyCode}
+
+
+\subsection{Функции}
+\index{life-\/client.\+c@{life-\/client.\+c}!main@{main}}
+\index{main@{main}!life-\/client.\+c@{life-\/client.\+c}}
+\subsubsection[{\texorpdfstring{main(void)}{main(void)}}]{\setlength{\rightskip}{0pt plus 5cm}int main (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{life-client_8c_a840291bc02cba5474a4cb46a9b9566fe}{}\label{life-client_8c_a840291bc02cba5474a4cb46a9b9566fe}
+
+
+См. определение в файле life-\/client.\+c строка 14
+
+
+\begin{DoxyCode}
+15 \{
+16     mkfifo(\textcolor{stringliteral}{"ctos"}, \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55bafa588afcf6a1d45e5503f8fb1f189df2}{RIGHTS});
+17     \textcolor{comment}{//mkfifo("stoc", RIGHTS);}
+18    \textcolor{comment}{/* if(!fork())\{}
+19 \textcolor{comment}{        int fd1 = open("stoc", O\_RDONLY, 0);}
+20 \textcolor{comment}{        dup2(fd1, 0);}
+21 \textcolor{comment}{        close(fd1);}
+22 \textcolor{comment}{        int work = 1;}
+23 \textcolor{comment}{        while(work)\{}
+24 \textcolor{comment}{            char c[50];}
+25 \textcolor{comment}{            fgets(c, 50, stdin);}
+26 \textcolor{comment}{            puts(c);}
+27 \textcolor{comment}{        \}printf("ee\(\backslash\)n");}
+28 \textcolor{comment}{        exit(0);}
+29 \textcolor{comment}{    \}*/}
+30     \textcolor{keywordtype}{int} fd2 = open(\textcolor{stringliteral}{"ctos"}, O\_WRONLY, 0);
+31     dup2(fd2, 1);
+32     close(fd2);
+33     \textcolor{keywordtype}{char} cmd[\hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{CMDSIZE}];
+34     \textcolor{keywordtype}{int} work = 1;
+35     \textcolor{keywordflow}{while}(work)\{
+36         cmd[0] = \textcolor{charliteral}{'\(\backslash\)0'};
+37         fgets(cmd, \hyperlink{life-client_8c_a06fc87d81c62e9abb8790b6e5713c55ba82d13d61b41ebfaa72523ab683e418bc}{CMDSIZE}, stdin);
+38         \textcolor{keywordflow}{if}(strstr(cmd, \textcolor{stringliteral}{"quit"}) || strstr(cmd, \textcolor{stringliteral}{"выход"}))\{
+39             work = 0;
+40         \}
+41         puts(cmd);
+42         fflush(stdout);
+43     \}
+44     \textcolor{comment}{//wait(NULL);}
+45     \textcolor{keywordflow}{return} 0;
+46 \}
+\end{DoxyCode}

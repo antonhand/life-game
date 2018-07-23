@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="structfld__param">
+<title>fld_param struct Reference</title>
+<para>
+    <programlisting>#include <link linkend="lifefld_8h">&lt;lifefld.h&gt;</link></programlisting>
+</para>
+        <section>
+            <title>Поля данных</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int m<para><emphasis>Размер поля по вертикали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int n<para><emphasis>Размер поля по горизонтали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int k<para><emphasis>Количество процессов</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int proc_vert<para><emphasis>Количество процессов по вертикали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int proc_gor<para><emphasis>Количество процессов по горизонтали</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int sqrside<para><emphasis>Размер квадрата разбиения</emphasis></para></para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+
+<para>Структура параметров поля </para>
+    </simplesect>
+        <section>
+            <title>Поля</title>
+        </section>
+</section>

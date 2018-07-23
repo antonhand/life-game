@@ -1,0 +1,357 @@
+\hypertarget{lifefld_8c}{}\section{Файл /home/anton/\+Dropbox/Программирование/Жизнь/lifefld.c}
+\label{lifefld_8c}\index{/home/anton/\+Dropbox/Программирование/Жизнь/lifefld.\+c@{/home/anton/\+Dropbox/Программирование/Жизнь/lifefld.\+c}}
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$sys/ipc.\+h$>$}\\*
+{\ttfamily \#include $<$sys/shm.\+h$>$}\\*
+{\ttfamily \#include $<$math.\+h$>$}\\*
+{\ttfamily \#include \char`\"{}lifefld.\+h\char`\"{}}\\*
+\subsection*{Функции}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{lifefld_8c_a32300bb46d9c00fa91aeabb9966f8b35}{coverfld} (int m, int n, int k, int $\ast$procvert, int $\ast$procgor)
+\item 
+int $\ast$$\ast$ \hyperlink{lifefld_8c_af4b0e2749728ae38395e689d7158c4d1}{fldcreate} (struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+void \hyperlink{lifefld_8c_a2ace44c9453b8a3039dc1ca159290af9}{get\+\_\+borders} (struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc, int $\ast$$\ast$shmid)
+\item 
+void \hyperlink{lifefld_8c_a021e16a77a7d22b764f04ca286de10bd}{rmfld} (int $\ast$$\ast$fld, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+void \hyperlink{lifefld_8c_a7a0276abe2b2c8b8b4820e3664340739}{rmborder} (struct \hyperlink{structborder}{border} $\ast$borders, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\item 
+int \hyperlink{lifefld_8c_a33d22361defb8f49f54304fe19240abe}{checkhit} (int $\ast$x, int $\ast$y, struct \hyperlink{structfld__param}{fld\+\_\+param} $\ast$fldp, struct \hyperlink{structproc__param}{proc\+\_\+param} $\ast$proc)
+\end{DoxyCompactItemize}
+
+
+\subsection{Функции}
+\index{lifefld.\+c@{lifefld.\+c}!checkhit@{checkhit}}
+\index{checkhit@{checkhit}!lifefld.\+c@{lifefld.\+c}}
+\subsubsection[{\texorpdfstring{checkhit(int $\ast$x, int $\ast$y, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{checkhit(int *x, int *y, struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}int checkhit (
+\begin{DoxyParamCaption}
+\item[{int $\ast$}]{x, }
+\item[{int $\ast$}]{y, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8c_a33d22361defb8f49f54304fe19240abe}{}\label{lifefld_8c_a33d22361defb8f49f54304fe19240abe}
+Проверяет, пренадлежит ли клетка с координатами (x, y) участку поля данного процесса. В случае если y равен N\+U\+LL, проверяет, принадлежит ли часть строки с номером x участку поля данного процесса. Приводит х и y к внутренним координатам процесса. 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in,out}  & {\em x} & Номер клетки по вертикали \\
+\hline
+\mbox{\tt in,out}  & {\em y} & Номер клетки по горизонтали \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 155
+
+
+\begin{DoxyCode}
+156 \{
+157     \textcolor{keywordtype}{int} x1 = *x;
+158     \textcolor{keywordflow}{if}(proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside} < x1 && x1 <= proc->num\_vert * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside} + proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 2)\{
+159         x1 -= proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+160     \} \textcolor{keywordflow}{else} \{
+161         \textcolor{keywordflow}{return} 0;
+162     \}
+163     \textcolor{keywordflow}{if}(y)\{
+164         \textcolor{keywordtype}{int} y1 = *y;
+165         \textcolor{keywordflow}{if}(proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside} < y1 && y1 <= proc->num\_gor * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside} + proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 2)\{
+166             y1 -= proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+167         \} \textcolor{keywordflow}{else} \{
+168             \textcolor{keywordflow}{return} 0;
+169         \}
+170         *y = y1;
+171     \}
+172     *x = x1;
+173     \textcolor{keywordflow}{return} 1;
+174 \}
+\end{DoxyCode}
+\index{lifefld.\+c@{lifefld.\+c}!coverfld@{coverfld}}
+\index{coverfld@{coverfld}!lifefld.\+c@{lifefld.\+c}}
+\subsubsection[{\texorpdfstring{coverfld(int m, int n, int k, int $\ast$procvert, int $\ast$procgor)}{coverfld(int m, int n, int k, int *procvert, int *procgor)}}]{\setlength{\rightskip}{0pt plus 5cm}int coverfld (
+\begin{DoxyParamCaption}
+\item[{int}]{m, }
+\item[{int}]{n, }
+\item[{int}]{k, }
+\item[{int $\ast$}]{procvert, }
+\item[{int $\ast$}]{procgor}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8c_a32300bb46d9c00fa91aeabb9966f8b35}{}\label{lifefld_8c_a32300bb46d9c00fa91aeabb9966f8b35}
+Вычисляет оптимальное разбиение поля на квадраты 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em m} & Размер поля по вертикали \\
+\hline
+\mbox{\tt in}  & {\em n} & Размер поля по горизонтали \\
+\hline
+\mbox{\tt in}  & {\em k} & Количество процессов \\
+\hline
+\mbox{\tt out}  & {\em procvert} & Указатель на область памяти, в которую нужно поместить вычисленное количество процессов по вертикали при данном разбиении \\
+\hline
+\mbox{\tt out}  & {\em procgor} & Указатель на область памяти, в которую нужно поместить вычисленное количество процессов по вертикали при данном разбиении \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Сторона квадратов, на которые разбивается поле 
+\end{DoxyReturn}
+
+
+См. определение в файле lifefld.\+c строка 9
+
+
+\begin{DoxyCode}
+10 \{
+11     \textcolor{keywordtype}{int} proc\_vert = 0;
+12     \textcolor{keywordtype}{int} proc\_gor = 0;
+13     \textcolor{keywordtype}{int} maxarea = 0;
+14     \textcolor{keywordtype}{int} maxside = m;
+15     \textcolor{keywordtype}{int} minside = n;
+16     \textcolor{keywordflow}{if}(n > m)\{
+17         maxside = n;
+18         minside = m;
+19     \}
+20     \textcolor{keywordtype}{int} sqrside = 0;
+21     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 1; i <= sqrt(k) + 1; i++)\{
+22         \textcolor{keywordtype}{int} side = i;
+23         \textcolor{keywordtype}{int} other\_side = k / i;
+24         \textcolor{keywordtype}{int} tmpsqrside = minside / i;
+25         \textcolor{keywordflow}{if}(maxside / other\_side < tmpsqrside)\{
+26             tmpsqrside = maxside / other\_side;
+27         \}
+28         \textcolor{keywordflow}{if}(k % i)\{
+29             side++;
+30         \}
+31         \textcolor{keywordflow}{if}(i <= minside)\{
+32             \textcolor{keywordtype}{int} tmp\_area = tmpsqrside * tmpsqrside  * k;
+33             \textcolor{keywordflow}{if} (tmp\_area > maxarea)\{
+34                 maxarea = tmp\_area;
+35                 sqrside = tmpsqrside;
+36                 \textcolor{keywordflow}{if}(maxside == m)\{
+37                     proc\_vert = other\_side;
+38                     proc\_gor = side;
+39                 \} \textcolor{keywordflow}{else}\{
+40                     proc\_vert = side;
+41                     proc\_gor = other\_side;
+42                 \}
+43             \}
+44         \}
+45     \}
+46     *procvert = proc\_vert;
+47     *procgor = proc\_gor;
+48     \textcolor{keywordflow}{return} sqrside;
+49 \}
+\end{DoxyCode}
+\index{lifefld.\+c@{lifefld.\+c}!fldcreate@{fldcreate}}
+\index{fldcreate@{fldcreate}!lifefld.\+c@{lifefld.\+c}}
+\subsubsection[{\texorpdfstring{fldcreate(struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{fldcreate(struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}int$\ast$$\ast$ fldcreate (
+\begin{DoxyParamCaption}
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8c_af4b0e2749728ae38395e689d7158c4d1}{}\label{lifefld_8c_af4b0e2749728ae38395e689d7158c4d1}
+Создаёт участок поля для процесса 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Возвращает}
+Указатель на поле 
+\end{DoxyReturn}
+
+
+См. определение в файле lifefld.\+c строка 52
+
+
+\begin{DoxyCode}
+53 \{
+54     \textcolor{keywordtype}{int} **fld = malloc(proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} * \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int} *));
+55     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} i = 0; i < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}; i++)\{
+56         fld[i] = calloc(proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+57     \}
+58     \textcolor{keywordflow}{return} fld;
+59 \}
+\end{DoxyCode}
+\index{lifefld.\+c@{lifefld.\+c}!get\+\_\+borders@{get\+\_\+borders}}
+\index{get\+\_\+borders@{get\+\_\+borders}!lifefld.\+c@{lifefld.\+c}}
+\subsubsection[{\texorpdfstring{get\+\_\+borders(struct border $\ast$borders, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc, int $\ast$$\ast$shmid)}{get_borders(struct border *borders, struct fld_param *fldp, struct proc_param *proc, int **shmid)}}]{\setlength{\rightskip}{0pt plus 5cm}void get\+\_\+borders (
+\begin{DoxyParamCaption}
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc, }
+\item[{int $\ast$$\ast$}]{shmid}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8c_a2ace44c9453b8a3039dc1ca159290af9}{}\label{lifefld_8c_a2ace44c9453b8a3039dc1ca159290af9}
+Заполняет структуру границ поля указателями на разделяемую память 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt out}  & {\em borders} & Указатель на заполняемую структуру границ поля \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 62
+
+
+\begin{DoxyCode}
+63 \{
+64     \textcolor{keywordflow}{if}(proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} != 0)\{
+65         borders->\hyperlink{structborder_ad9180674bd187d2d03c1df75cfe09b5c}{left\_neighbor} = shmat(shmid[0][2 * proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} - 2], NULL, 0);
+66         borders->\hyperlink{structborder_ad9180674bd187d2d03c1df75cfe09b5c}{left\_neighbor} += proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+67 
+68         borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border} = shmat(shmid[0][2 * proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} - 1], NULL, 0);
+69         borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border} += proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+70 
+71 
+72     \} \textcolor{keywordflow}{else} \{
+73         borders->\hyperlink{structborder_ad9180674bd187d2d03c1df75cfe09b5c}{left\_neighbor} = calloc(proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+74         borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border} = calloc(proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+75     \}
+76     \textcolor{keywordflow}{if}(fldp->\hyperlink{structfld__param_a76f11d9a0a47b94f72c2d0e77fb32240}{n} != proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 2 + proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside})\{
+77 
+78         borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border} = shmat(shmid[0][2 * proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor}], NULL, 0);
+79         borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border} += proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+80         borders->\hyperlink{structborder_aba1475f2a488b21361600147af4a88d6}{right\_neighbor} = shmat(shmid[0][2 * proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} + 1], NULL, 0);
+81         borders->\hyperlink{structborder_aba1475f2a488b21361600147af4a88d6}{right\_neighbor} += proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+82 
+83     \} \textcolor{keywordflow}{else} \{
+84         borders->\hyperlink{structborder_aba1475f2a488b21361600147af4a88d6}{right\_neighbor} = calloc(proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+85         borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border} = calloc(proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+86     \}
+87     \textcolor{keywordflow}{if}(proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} != 0)\{
+88         borders->\hyperlink{structborder_a517e3084650ac9f1b2082b166e0396e3}{up\_neighbor} = shmat(shmid[1][2 * proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} - 2], NULL, 0);
+89         borders->\hyperlink{structborder_a517e3084650ac9f1b2082b166e0396e3}{up\_neighbor} += proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+90 
+91         borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border} = shmat(shmid[1][2 * proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} - 1], NULL, 0);
+92         borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border} += proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+93     \} \textcolor{keywordflow}{else} \{
+94         borders->\hyperlink{structborder_a517e3084650ac9f1b2082b166e0396e3}{up\_neighbor} = calloc(proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+95         borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border} = calloc(proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+96     \}
+97     \textcolor{keywordflow}{if}(fldp->\hyperlink{structfld__param_a742204794ea328ba293fe59cec79b990}{m} != proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 2 + proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside})\{
+98         borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border} = shmat(shmid[1][2 * proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert}], NULL, 0);
+99         borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border} += proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+100         borders->\hyperlink{structborder_af38f8c295590a5b07d90ccf4b246692b}{down\_neighbor} = shmat(shmid[1][2 * proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} + 1], NULL, 0);
+101 
+102         borders->\hyperlink{structborder_af38f8c295590a5b07d90ccf4b246692b}{down\_neighbor} += proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside};
+103     \} \textcolor{keywordflow}{else} \{
+104         borders->\hyperlink{structborder_af38f8c295590a5b07d90ccf4b246692b}{down\_neighbor} = calloc(proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+105         borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border} = calloc(proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side}, \textcolor{keyword}{sizeof}(\textcolor{keywordtype}{int}));
+106     \}
+107     \textcolor{keywordflow}{return};
+108 \}
+\end{DoxyCode}
+\index{lifefld.\+c@{lifefld.\+c}!rmborder@{rmborder}}
+\index{rmborder@{rmborder}!lifefld.\+c@{lifefld.\+c}}
+\subsubsection[{\texorpdfstring{rmborder(struct border $\ast$borders, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{rmborder(struct border *borders, struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}void rmborder (
+\begin{DoxyParamCaption}
+\item[{struct {\bf border} $\ast$}]{borders, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8c_a7a0276abe2b2c8b8b4820e3664340739}{}\label{lifefld_8c_a7a0276abe2b2c8b8b4820e3664340739}
+Открепляет указатели на разделяемую память в структуре границ поля 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt out}  & {\em borders} & Указатель на структуру границ поля \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 121
+
+
+\begin{DoxyCode}
+122 \{
+123     \textcolor{keywordflow}{if}(proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} != 0)\{
+124         shmdt(borders->\hyperlink{structborder_ad9180674bd187d2d03c1df75cfe09b5c}{left\_neighbor} - proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+125         shmdt(borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border} - proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+126     \} \textcolor{keywordflow}{else} \{
+127         free(borders->\hyperlink{structborder_ad9180674bd187d2d03c1df75cfe09b5c}{left\_neighbor});
+128         free(borders->\hyperlink{structborder_aeeebec46746633e69355c0041c87a6ae}{left\_border});
+129     \}
+130     \textcolor{keywordflow}{if}(fldp->\hyperlink{structfld__param_a76f11d9a0a47b94f72c2d0e77fb32240}{n} != proc->\hyperlink{structproc__param_aa38bc3a4369ecb19504a1bbeb65c0fd7}{gor\_side} - 2 + proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside})\{
+131         shmdt(borders->\hyperlink{structborder_aba1475f2a488b21361600147af4a88d6}{right\_neighbor} - proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+132         shmdt(borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border} - proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+133     \} \textcolor{keywordflow}{else} \{
+134         free(borders->\hyperlink{structborder_aba1475f2a488b21361600147af4a88d6}{right\_neighbor});
+135         free(borders->\hyperlink{structborder_a52e70a5be2f727a9687e12ef48f7ff3b}{right\_border});
+136     \}
+137     \textcolor{keywordflow}{if}(proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} != 0)\{
+138         shmdt(borders->\hyperlink{structborder_a517e3084650ac9f1b2082b166e0396e3}{up\_neighbor} - proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+139         shmdt(borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border} - proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->\hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+140     \} \textcolor{keywordflow}{else} \{
+141         free(borders->\hyperlink{structborder_a517e3084650ac9f1b2082b166e0396e3}{up\_neighbor});
+142         free(borders->\hyperlink{structborder_aa03d07abcb95934a80f3a5216a437e05}{up\_border});
+143     \}
+144     \textcolor{keywordflow}{if}(fldp->\hyperlink{structfld__param_a742204794ea328ba293fe59cec79b990}{m} != proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side} - 2 + proc->\hyperlink{structproc__param_a9072610d26440867757053b0511091df}{num\_vert} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside})\{
+145         shmdt(borders->\hyperlink{structborder_af38f8c295590a5b07d90ccf4b246692b}{down\_neighbor} - proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+146         shmdt(borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border} - proc->\hyperlink{structproc__param_ab98bd982bcef064d742eaad7405b75fa}{num\_gor} * fldp->
+      \hyperlink{structfld__param_a325bd3268e1877cda2a01cc850b02409}{sqrside});
+147     \} \textcolor{keywordflow}{else} \{
+148         free(borders->\hyperlink{structborder_af38f8c295590a5b07d90ccf4b246692b}{down\_neighbor});
+149         free(borders->\hyperlink{structborder_a91c057e02d53238e157ee6e67f694177}{down\_border});
+150     \}
+151     \textcolor{keywordflow}{return};
+152 \}
+\end{DoxyCode}
+\index{lifefld.\+c@{lifefld.\+c}!rmfld@{rmfld}}
+\index{rmfld@{rmfld}!lifefld.\+c@{lifefld.\+c}}
+\subsubsection[{\texorpdfstring{rmfld(int $\ast$$\ast$fld, struct fld\+\_\+param $\ast$fldp, struct proc\+\_\+param $\ast$proc)}{rmfld(int **fld, struct fld_param *fldp, struct proc_param *proc)}}]{\setlength{\rightskip}{0pt plus 5cm}void rmfld (
+\begin{DoxyParamCaption}
+\item[{int $\ast$$\ast$}]{fld, }
+\item[{struct {\bf fld\+\_\+param} $\ast$}]{fldp, }
+\item[{struct {\bf proc\+\_\+param} $\ast$}]{proc}
+\end{DoxyParamCaption}
+)}\hypertarget{lifefld_8c_a021e16a77a7d22b764f04ca286de10bd}{}\label{lifefld_8c_a021e16a77a7d22b764f04ca286de10bd}
+Уничтожает участок поля процесса 
+\begin{DoxyParams}[1]{Аргументы}
+\mbox{\tt in}  & {\em fld} & Указатель на поле \\
+\hline
+\mbox{\tt in}  & {\em fldp} & Параметры поля \\
+\hline
+\mbox{\tt in}  & {\em proc} & Параметры процесса \\
+\hline
+\end{DoxyParams}
+
+
+См. определение в файле lifefld.\+c строка 111
+
+
+\begin{DoxyCode}
+112 \{
+113     \textcolor{keywordflow}{for}(\textcolor{keywordtype}{int} t = 0; t < proc->\hyperlink{structproc__param_aa451c5f2cadd3053a3fb92db509345d2}{vert\_side}; t++)\{
+114        free(fld[t]);
+115     \}
+116     free(fld);
+117     \textcolor{keywordflow}{return};
+118 \}
+\end{DoxyCode}
